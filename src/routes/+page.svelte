@@ -1,1 +1,1 @@
-<div class="min-h-screen w-screen"></div>
+<div class="min-h-screen w-screen bg-background"></div>  

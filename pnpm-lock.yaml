@@ -23,6 +23,9 @@ importers:
       drizzle-orm:
         specifier: ^0.33.0
         version: 0.33.0(@libsql/client@0.9.0)
+      mode-watcher:
+        specifier: ^0.5.0
+        version: 0.5.0(svelte@5.2.7)
     devDependencies:
       '@skeletonlabs/skeleton':
         specifier: 3.0.0-next.9
@@ -1418,6 +1421,11 @@ packages:
   minipass@7.1.2:
     resolution: {integrity: sha512-qOOzS1cBTWYF4BH8fVePDBOO9iptMnGUEZwNc/cMWnTV2nVLZ7VoNWEPHkYczZA0pdoA7dl6e7FL659nX9S2aw==}
     engines: {node: '>=16 || 14 >=14.17'}
+
+  mode-watcher@0.5.0:
+    resolution: {integrity: sha512-5E6fh/aXhAVv+U+DbeM0hCmskQE9u7WSmvnCRijJB/MJu7HtB73sjiCaZ9n1M8QHmzLrBFo8XBAUcWXkDm8Z9A==}
+    peerDependencies:
+      svelte: ^4.0.0 || ^5.0.0-next.1
 
   mri@1.2.0:
     resolution: {integrity: sha512-tzzskb3bG8LvYGFF/mDTpq3jpI6Q9wc3LEmBaghu+DdCssd1FakN7Bc0hVNmEyGq1bq3RgfkCb3cmQLpNPOroA==}
@@ -3052,6 +3060,10 @@ snapshots:
       brace-expansion: 2.0.1
 
   minipass@7.1.2: {}
+
+  mode-watcher@0.5.0(svelte@5.2.7):
+    dependencies:
+      svelte: 5.2.7
 
   mri@1.2.0: {}
 

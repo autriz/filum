@@ -11,7 +11,12 @@ export default {
 	],
 	darkMode: "class",
 	theme: {
-		extend: {}
+		extend: {
+			colors: {
+				background: "rgb(var(--background) / <alpha-value>)",
+				foreground: "rgba(var(--foreground) / <alpha-value>)"
+			}
+		}
 	},
 
 	plugins: [
