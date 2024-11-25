@@ -13,8 +13,8 @@ export default {
 	theme: {
 		extend: {
 			colors: {
-				background: "rgb(var(--background) / <alpha-value>)",
-				foreground: "rgba(var(--foreground) / <alpha-value>)"
+				background: "rgba(var(--background) <alpha-value>)",
+				foreground: "rgba(var(--foreground) <alpha-value>)"
 			}
 		}
 	},
