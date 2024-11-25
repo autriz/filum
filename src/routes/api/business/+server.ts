@@ -15,3 +15,9 @@ export const GET: RequestHandler = async () => {
         });
     }
 };
+
+export const POST: RequestHandler = async ({ request }) => {
+    const body = await request.json();
+    const newBusiness = await createBusiness(body);
+    return new Response(JSON.stringify(newBusiness), { status: 201 });
+};

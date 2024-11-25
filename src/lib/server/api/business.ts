@@ -1,6 +1,7 @@
 import { eq } from "drizzle-orm";
 import { db } from "../db";
 import { business, type Business } from "../db/schema";
+import { randomUUID } from 'crypto';
 
 export async function getBusinesses() {
     return await db.select()
@@ -15,7 +16,12 @@ export async function getBusiness(id: string) {
 }
 
 export async function createBusiness(newBusiness: Business) {
-    return await db.insert(business).values(newBusiness);
+    const newBusinessData = {
+        ...newBusiness,
+        id: randomUUID()
+    };
+    await db.insert(business).values(newBusinessData);
+    return newBusinessData;
 }
 
 export async function updateBusiness(id: string, updatedFields: Partial<Business>) {
