@@ -14,7 +14,7 @@ export const user = sqliteTable('user', {
 	username: text('username').notNull().unique(),
 	accountId: text('account_id')
 		.notNull()
-		.references(() => account.id)
+		.references(() => account.id, { onDelete: "cascade" })
 });
 
 export const business = sqliteTable('business', {
@@ -26,38 +26,46 @@ export const business = sqliteTable('business', {
 	type: text('type').notNull(),
 	accountId: text('account_id')
 		.notNull()
-		.references(() => account.id)
+		.references(() => account.id, { onDelete: "cascade" })
 });
 
 export const session = sqliteTable('session', {
 	id: text('id').primaryKey(),
 	accountId: text('account_id')
-		.notNull(),
-	expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull()
+		.notNull()
+		.references(() => account.id, { onDelete: "cascade" }),
+	expiresAt: integer('expires_at', { 
+		mode: 'timestamp' 
+	}).notNull()
 });
 
 export const service = sqliteTable('service', {
 	id: text('id').primaryKey(),
 	businessId: text('business_id')
 		.notNull()
-		.references(() => business.id),
+		.references(() => business.id, { onDelete: "cascade" }),
 	name: text('name').notNull(),
 	description: text('description').notNull(),
 	price: integer('price').notNull(),
-	isActive: integer('is_active', { mode: 'boolean' }).notNull().default(true)
+	isActive: integer('is_active', { 
+		mode: 'boolean' 
+	}).notNull().default(true)
 });
 
 export const review = sqliteTable('review', {
 	id: text('id').primaryKey(),
 	serviceId: text('service_id')
 		.notNull()
-		.references(() => service.id),
+		.references(() => service.id, { onDelete: "cascade" }),
 	userId: text('user_id')
 		.notNull()
-		.references(() => user.id),
+		.references(() => user.id, { onDelete: "set null" }),
 	rating: integer('rating').notNull(),
 	comment: text('comment').notNull(),
-	createdAt: integer('created_at', { mode: 'timestamp' }).notNull().default(sql`(strftime('%s', 'now'))`),
+	createdAt: integer('created_at', { 
+		mode: 'timestamp' 
+	}).notNull()
+	.default(sql`(strftime('%s', 'now'))`),
 });
 
 export type Review = typeof review.$inferSelect;
