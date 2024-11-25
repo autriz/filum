@@ -56,6 +56,8 @@ export type Review = typeof review.$inferSelect;
 
 export type Business = typeof business.$inferSelect;
 
+export type Service = typeof service.$inferSelect;
+
 export type Session = typeof session.$inferSelect;
 
 export type User = typeof user.$inferSelect;
