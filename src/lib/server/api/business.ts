@@ -25,9 +25,10 @@ export async function createBusiness(newBusiness: Business) {
 }
 
 export async function updateBusiness(id: string, updatedFields: Partial<Business>) {
-    return await db.update(business)
+    await db.update(business)
         .set(updatedFields)
         .where(eq(business.id, id));
+    return await getBusiness(id);
 }
 
 export async function deleteBusiness(id: string) {
