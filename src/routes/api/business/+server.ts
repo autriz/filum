@@ -9,6 +9,8 @@ export const GET: RequestHandler = async () => {
             headers: { 'Content-Type': 'application/json' }
         });
     } catch (error) {
+        console.error(error);
+        
         return new Response(JSON.stringify({ message: 'Server error' }), {
             status: 500,
             headers: { 'Content-Type': 'application/json' }
