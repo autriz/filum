@@ -21,7 +21,7 @@
 				</a>
 			</div>
 		</div> -->
-		<svg aria-hidden="true" class="mask absolute inset-0 -z-10 h-full w-full stroke-surface-600">
+		<svg aria-hidden="true" class="mask absolute inset-0 -z-10 h-full w-full stroke-surface-600/30">
 			<defs>
 				<pattern
 					x="50%"

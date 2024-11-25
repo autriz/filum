@@ -1,19 +1,20 @@
 import { sql } from 'drizzle-orm';
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 
+export const account = sqliteTable('account', {
+	id: text('id').primaryKey(),
+	email: text('email').notNull(),
+	passwordHash: text('password_hash').notNull(),
+	type: text('type').notNull()
+})
+
 export const user = sqliteTable('user', {
 	id: text('id').primaryKey(),
 	age: integer('age'),
 	username: text('username').notNull().unique(),
-	passwordHash: text('password_hash').notNull(),
-});
-
-export const session = sqliteTable('session', {
-	id: text('id').primaryKey(),
-	userId: text('user_id')
+	accountId: text('account_id')
 		.notNull()
-		.references(() => user.id),
-	expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull()
+		.references(() => account.id)
 });
 
 export const business = sqliteTable('business', {
@@ -22,9 +23,17 @@ export const business = sqliteTable('business', {
 	description: text('description').notNull(),
 	address: text('address').notNull(),
 	phone: text('phone').notNull(),
-	email: text('email').notNull(),
-	passwordHash: text('password_hash').notNull(),
 	type: text('type').notNull(),
+	accountId: text('account_id')
+		.notNull()
+		.references(() => account.id)
+});
+
+export const session = sqliteTable('session', {
+	id: text('id').primaryKey(),
+	accountId: text('account_id')
+		.notNull(),
+	expiresAt: integer('expires_at', { mode: 'timestamp' }).notNull()
 });
 
 export const service = sqliteTable('service', {
