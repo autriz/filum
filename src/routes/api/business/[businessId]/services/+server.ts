@@ -6,14 +6,11 @@ export const GET: RequestHandler = async ({ params }) => {
     try {
         const services = await getBusinessServices(params.businessId);
         
-        return json(services, {
-            status: 200,
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
+        return json(services);
 
     } catch (error) {
+        console.error(error);
+        
         return json({ message: 'Server error' }, { status: 500 });
     }
 };

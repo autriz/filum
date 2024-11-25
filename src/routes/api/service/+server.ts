@@ -6,7 +6,9 @@ import { like, or } from 'drizzle-orm';
 export async function GET({ url }) {
     const query = url.searchParams.get("q");
 
-    if (!query || query.length > 3) return json([]);
+    if (!query
+        // || query.length < 3 add later
+    ) return json([]);
 
     const services = await db.select({ 
         id: service.id, 
