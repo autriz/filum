@@ -41,3 +41,8 @@ export const PUT: RequestHandler = async ({ params, request }) => {
         return new Response('Server error', { status: 500 });
     }
 };
+
+export const DELETE: RequestHandler = async ({ params }) => {
+    await deleteBusiness(params.businessId);
+    return new Response(null, { status: 204 });
+};
