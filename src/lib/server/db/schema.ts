@@ -44,7 +44,6 @@ export const service = sqliteTable('service', {
 	name: text('name').notNull(),
 	description: text('description').notNull(),
 	price: integer('price').notNull(),
-	duration: integer('duration').notNull(),
 	isActive: integer('is_active', { mode: 'boolean' }).notNull().default(true)
 });
 
