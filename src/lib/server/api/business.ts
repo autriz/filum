@@ -1,7 +1,8 @@
 import { eq } from "drizzle-orm";
 import { db } from "../db";
-import { business, type Business } from "../db/schema";
 import { randomUUID } from 'crypto';
+import { business, type Business } from "../db/schema";
+import { service } from "../db/schema";
 
 export async function getBusinesses() {
     return await db.select()
@@ -34,4 +35,10 @@ export async function updateBusiness(id: string, updatedFields: Partial<Business
 export async function deleteBusiness(id: string) {
     return await db.delete(business)
         .where(eq(business.id, id));
+}
+
+export async function getBusinessServices(businessId: string) {
+    return await db.select()
+        .from(service)
+        .where(eq(service.businessId, businessId));
 }
