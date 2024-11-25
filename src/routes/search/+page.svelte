@@ -1,11 +1,17 @@
 <script lang="ts">
-	import type { Service } from '$lib/server/db/schema';
+	import { goto } from '$app/navigation';
+	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
 
-	let { data }: { data: Service[] } = $props();
+	let { data } = $props();
+	let { services } = $state(data);
 
-	let searchQuery = $state<string>('');
+	let q = $page.url.searchParams.get('q') ?? '';
+
+	let searchQuery = $state<string>(q);
 	let isLoading = $state<boolean>(false);
-	let services = $state<Service[]>(data ? data : []);
+
+	$effect(() => console.log($page.url, searchQuery));
 
 	function handleKeyPress(e: KeyboardEvent) {
 		if (e.key === 'Enter' && !isLoading) {
@@ -18,8 +24,13 @@
 	async function handleSearch() {
 		isLoading = true;
 
+		if (searchQuery) {
+			$page.url.searchParams.set('q', searchQuery);
+			goto($page.url);
+		}
+
 		try {
-			const resp = await fetch(`/api/services?${searchQuery ? `q=${searchQuery}` : ''}`);
+			const resp = await fetch(`/api/service?${searchQuery ? `q=${searchQuery}` : ''}`);
 
 			if (!resp.ok) throw new Error('Failed to fetch services');
 
@@ -30,6 +41,10 @@
 			isLoading = false;
 		}
 	}
+
+	onMount(() => {
+		if (q) searchQuery = q;
+	});
 </script>
 
 <div>
