@@ -13,11 +13,13 @@
 		}
 	}
 
+	// add filters, i.e. rating, price
+
 	async function handleSearch() {
 		isLoading = true;
 
 		try {
-			const resp = await fetch(`/api/services/${searchQuery ? `q=${searchQuery}` : ''}`);
+			const resp = await fetch(`/api/services?${searchQuery ? `q=${searchQuery}` : ''}`);
 
 			if (!resp.ok) throw new Error('Failed to fetch services');
 
@@ -25,7 +27,7 @@
 		} catch (err) {
 			console.error(`Error fetching services: ${err}`);
 		} finally {
-			isLoading = true;
+			isLoading = false;
 		}
 	}
 </script>
@@ -37,9 +39,9 @@
 		bind:value={searchQuery}
 		onkeypress={handleKeyPress}
 	/>
-	<button disabled={isLoading}>Search</button>
+	<button disabled={isLoading} onclick={handleSearch}>Search</button>
 </div>
-{#if isLoading}
+{#if !isLoading}
 	<div>
 		{#each services as service}
 			<div>{service.id}</div>
