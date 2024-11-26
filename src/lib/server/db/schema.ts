@@ -5,13 +5,18 @@ export const account = sqliteTable('account', {
 	id: text('id').primaryKey(),
 	email: text('email').notNull(),
 	passwordHash: text('password_hash').notNull(),
+	createdAt: integer('created_at', { 
+		mode: 'timestamp' 
+	}).notNull()
+	.default(sql`(strftime('%s', 'now'))`),
 	type: text('type').notNull()
 })
 
 export const user = sqliteTable('user', {
 	id: text('id').primaryKey(),
+	name: text('name').notNull(),
+	surname: text('surname').notNull(),
 	age: integer('age'),
-	username: text('username').notNull().unique(),
 	accountId: text('account_id')
 		.notNull()
 		.references(() => account.id, { onDelete: "cascade" })
