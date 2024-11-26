@@ -9,8 +9,6 @@
 	let searchQuery = $state<string>('');
 	let isLoading = $state<boolean>(false);
 
-	$effect(() => console.log($page.url, searchQuery));
-
 	function handleKeyPress(e: KeyboardEvent) {
 		if (e.key === 'Enter' && !isLoading) {
 			handleSearch();
