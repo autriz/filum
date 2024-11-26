@@ -4,7 +4,7 @@
 		aria-hidden="true"
 	>
 		<div
-			class="pulse relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem] lg:w-[120rem]"
+			class="pulse relative left-[calc(50%-11rem)] aspect-[1155/678] w-[72.1875rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] lg:w-[120rem]"
 			style="clip-path: polygon(85% 46%, 94% 42%, 100% 16%, 80% 0, 70% 15%, 79% 31%, 66% 41%, 63% 65%, 53% 74%, 45% 57%, 36% 71%, 23% 83%, 42% 96%, 69% 96%, 83% 83%, 95% 58%);"
 		></div>
 	</div>
@@ -21,7 +21,7 @@
 		<div class="mt-10 flex items-center justify-center gap-x-6">
 			<a
 				href="/"
-				class="text-md rounded-md bg-primary-600 px-4 py-3 font-semibold text-surface-50 shadow-sm transition-colors hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600"
+				class="text-md rounded-md bg-primary-600 px-4 py-3 font-semibold text-surface-50 shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 motion-safe:transition-colors"
 			>
 				На главную
 			</a>
@@ -30,6 +30,12 @@
 </main>
 
 <style>
+	@media (prefers-reduced-motion) {
+		.pulse {
+			animation: none;
+		}
+	}
+
 	@keyframes pulse {
 		50% {
 			opacity: 0.27;
