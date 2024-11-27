@@ -1,7 +1,7 @@
 import { db } from "../db";
 import { eq } from "drizzle-orm";
 import { randomUUID } from 'crypto';
-import { service, type Service } from "../db/schema";
+import { service, type Service, type ServiceInsert } from "../db/schema";
 
 export async function getServices() {
     return await db.select()
@@ -14,7 +14,7 @@ export async function getService(id: string) {
         .where(eq(service.id, id));
 }
 
-export async function createServiceForBusiness(newService: Service) {
+export async function createServiceForBusiness(newService: ServiceInsert) {
 
     if (!newService.name?.trim()) {
         throw new Error('Name is required');
