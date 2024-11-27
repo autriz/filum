@@ -1,5 +1,7 @@
 import { sql } from 'drizzle-orm';
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
+import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
+import { z } from 'zod';
 
 export const account = sqliteTable('account', {
 	id: text('id').primaryKey(),
@@ -89,7 +91,21 @@ export const review = sqliteTable('review', {
 		mode: 'timestamp' 
 	}).notNull()
 	.default(sql`(strftime('%s', 'now'))`),
+	updatedAt: integer('updated_at', {
+		mode: "timestamp"
+	}).notNull()
+	.default(sql`(strftime('%s', 'now'))`),
 });
+
+export const selectReviewSchema = createSelectSchema(review);
+export const insertReviewSchema = createInsertSchema(review, {
+	id: z.string().uuid(),
+	userId: z.string().uuid(),
+	serviceId: z.string().uuid(),
+	comment: z.string(),
+	rating: z.number().min(0.0).max(5.0),
+}).omit({ createdAt: true, updatedAt: true });
+export const updateReviewSchema = insertReviewSchema.pick({ comment: true, rating: true });
 
 export type Review = typeof review.$inferSelect;
 
