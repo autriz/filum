@@ -79,6 +79,8 @@ export type Business = typeof business.$inferSelect;
 
 export type Service = typeof service.$inferSelect;
 
+export type ServiceInsert = typeof service.$inferInsert;
+
 export type Session = typeof session.$inferSelect;
 
 export type User = typeof user.$inferSelect;
