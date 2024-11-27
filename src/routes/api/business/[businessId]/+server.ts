@@ -7,12 +7,12 @@ export const GET: RequestHandler = async ({ params }) => {
         const [business] = await getBusiness(params.businessId);
 
         if (!business) {
-            return new Response('Business not found', { status: 404 });
+            return json({ message: 'Business not found' }, { status: 404 });
         }
 
         return json(business);
     } catch (error) {
-        return new Response('Server error', { status: 500 });
+        return json({ message: 'Server error' }, { status: 500 });
     }
 };
 
@@ -21,14 +21,14 @@ export const PUT: RequestHandler = async ({ params, request }) => {
         const body = await request.json();
         
         if (!body || typeof body !== 'object') {
-            return new Response('Invalid request body', { status: 400 });
+            return json({ message: 'Invalid request body' }, { status: 400 });
         }
 
         const requiredFields = ['name']; // Обязательные поля
         const missingFields = requiredFields.filter(field => !(field in body));
         
         if (missingFields.length > 0) {
-            return new Response(
+            return json(
                 `Missing required fields: ${missingFields.join(', ')}`, 
                 { status: 400 }
             );
@@ -38,11 +38,11 @@ export const PUT: RequestHandler = async ({ params, request }) => {
         return json(updatedBusiness);
     } catch (error) {
         console.error('Error updating business:', error);
-        return new Response('Server error', { status: 500 });
+        return json({ message: 'Server error' }, { status: 500 });
     }
 };
 
 export const DELETE: RequestHandler = async ({ params }) => {
     await deleteBusiness(params.businessId);
-    return new Response(null, { status: 204 });
+    return json(null, { status: 204 });
 };

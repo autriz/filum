@@ -6,11 +6,11 @@ export const GET: RequestHandler = async ({ params }) => {
     try {
         const services = await getBusinessServices(params.businessId);
         
-        return new Response(JSON.stringify(services), { status: 200 });
+        return json(services, { status: 200 });
 
     } catch (error) {
         console.error(error);
         
-        return new Response(JSON.stringify({ message: 'Server error' }), { status: 500 });
+        return json({ message: 'Server error' }, { status: 500 });
     }
 };
