@@ -25,11 +25,11 @@ export async function createBusiness(newBusiness: Business) {
     return newBusinessData;
 }
 
-export async function updateBusiness(id: string, updatedFields: Partial<Business>) {
-    await db.update(business)
+export async function updateBusiness(id: string, updatedFields: Partial<Omit<Business, "type" | "id">>) {
+    return (await db.update(business)
         .set(updatedFields)
-        .where(eq(business.id, id));
-    return await getBusiness(id);
+        .returning()
+        .where(eq(business.id, id))).at(0);
 }
 
 export async function deleteBusiness(id: string) {
