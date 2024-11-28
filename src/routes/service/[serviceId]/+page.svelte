@@ -76,14 +76,14 @@
 >
 	<div class="mx-4 flex flex-col gap-8 lg:flex-row">
 		<section
-			class="w-full rounded-lg border border-surface-600 p-6 bg-surface-200-800 hover:border-surface-400 motion-safe:transition-colors lg:w-[600px] 2xl:w-[800px]"
+			class="w-full rounded-lg border border-surface-200 p-6 hover:border-surface-400 motion-safe:transition-colors dark:border-surface-600 dark:bg-surface-800 lg:w-[600px] 2xl:w-[800px]"
 		>
 			<h2 class="text-3xl font-bold">{data.name}</h2>
 			<p class="mt-1 text-lg">{data.price}</p>
 			<p class="mt-2 text-lg">{data.description}</p>
 		</section>
 		<section
-			class="grow rounded-lg border border-surface-600 p-6 bg-surface-200-800 hover:border-surface-400 motion-safe:transition-colors"
+			class="grow rounded-lg border border-surface-200 p-6 hover:border-surface-400 motion-safe:transition-colors dark:border-surface-600 dark:bg-surface-800"
 		>
 			<h2 class="text-3xl font-bold">{business.name}</h2>
 			<p class="mt-1 text-lg">{business.about}</p>
@@ -96,7 +96,7 @@
 			{#each reviews as review (review.id)}
 				{@const rating = review.rating}
 				<div
-					class="rounded-lg border border-surface-600 p-6 bg-surface-200-800 hover:border-surface-400 motion-safe:transition-colors"
+					class="rounded-lg border border-surface-200 p-6 hover:border-surface-400 motion-safe:transition-colors dark:border-surface-600 dark:bg-surface-800"
 				>
 					<div class="overflow-hidden" style="width: {rating}rem;">
 						<span class="sr-only">{rating}</span>
