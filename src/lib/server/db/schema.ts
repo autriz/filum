@@ -35,9 +35,9 @@ export const businessContact = sqliteTable('business_contact', {
 	contact: text('contact').notNull()
 });
 
-export const businessTag = sqliteTable('business_tag', {
+// export const businessTag = sqliteTable('business_tag', {
 
-})
+// })
 
 export const business = sqliteTable('business', {
 	id: text('id').primaryKey(),
@@ -47,7 +47,7 @@ export const business = sqliteTable('business', {
 		.default(""),
 	about: text('about').notNull(),
 	address: text('address').notNull(),
-	
+	// company, freelance, etc.
 	type: text('type').notNull(),
 	accountId: text('account_id')
 		.notNull()
