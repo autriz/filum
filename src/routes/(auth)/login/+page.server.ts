@@ -5,9 +5,9 @@ import { eq } from 'drizzle-orm';
 import * as auth from '$lib/server/auth';
 import { db } from '$lib/server/db';
 import * as table from '$lib/server/db/schema';
-import type { Actions, PageServerLoad } from './$types';
+import type { Actions, ServerLoad } from '@sveltejs/kit';
 
-export const load: PageServerLoad = async (event) => {
+export const load: ServerLoad = async (event) => {
 	if (event.locals.user) {
 		throw redirect(302, '/login/index');
 	}

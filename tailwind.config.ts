@@ -15,6 +15,9 @@ export default {
 			colors: {
 				background: "rgba(var(--background) <alpha-value>)",
 				foreground: "rgba(var(--foreground) <alpha-value>)"
+			},
+			boxShadow: {
+				'more-blur-shadow': ''
 			}
 		}
 	},
