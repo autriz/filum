@@ -1,4 +1,4 @@
-<div class="relative isolate h-screen overflow-hidden px-6 pt-14 lg:px-8">
+<div class="relative isolate h-full overflow-hidden px-6 pt-14 lg:px-8">
 	<div
 		class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80 lg:-top-60"
 		aria-hidden="true"
