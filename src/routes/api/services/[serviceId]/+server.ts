@@ -1,8 +1,15 @@
-import { json } from '@sveltejs/kit';
+import { json, type RequestHandler } from "@sveltejs/kit";
+import { getService } from "$lib/server/api/services";
+export const GET: RequestHandler = async ({ params }) => {
+    try {
+        const [service] = await getService(params.serviceId);
 
-export async function GET({ params }) {
-    let id = params["serviceId"];
+        if (!service) {
+            return json({ message: 'Service not found' }, { status: 404 });
+        }
 
-    // return json(data)
-    return new Response("", { status: 204 });
-}
+        return json(service);
+    } catch (error) {
+        return json({ message: 'Server error' }, { status: 500 });
+    }
+};

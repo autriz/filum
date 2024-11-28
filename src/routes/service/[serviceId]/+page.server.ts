@@ -2,11 +2,12 @@ import { getBusiness } from "$lib/server/api/business";
 import type { PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async ({ params }) => {
-    const businessId = params["businessId"];
+    const serviceId = params["serviceId"];
 
-    const business = await getBusiness(businessId);
+    // const service = await getService(serviceId);
+    const service = {};
 
     return {
-        business
+        service
     }
 };
