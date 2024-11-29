@@ -9,7 +9,11 @@ export const account = sqliteTable('account', {
 	passwordHash: text('password_hash').notNull(),
 	createdAt: integer('created_at', { 
 		mode: 'timestamp' 
-	}).notNull()
+	}).notNull(),
+	updatedAt: integer('updated_at', {
+		mode: "timestamp"
+	})
+	.notNull()
 	.default(sql`(strftime('%s', 'now'))`),
 	type: text('type').notNull()
 })
@@ -23,7 +27,17 @@ export const user = sqliteTable('user', {
 		.default(""),
 	accountId: text('account_id')
 		.notNull()
-		.references(() => account.id, { onDelete: "cascade" })
+		.references(() => account.id, { onDelete: "cascade" }),
+	createdAt: integer('created_at', { 
+			mode: 'timestamp' 
+		})
+		.notNull()
+		.default(sql`(strftime('%s', 'now'))`),
+	updatedAt: integer('updated_at', {
+		mode: "timestamp"
+		})
+		.notNull()
+		.default(sql`(strftime('%s', 'now'))`),
 });
 
 export const businessContact = sqliteTable('business_contact', {
@@ -72,6 +86,14 @@ export const service = sqliteTable('service', {
 	name: text('name').notNull(),
 	description: text('description').notNull(),
 	price: integer('price').notNull(),
+	createdAt: integer('created_at', { 
+		mode: 'timestamp' 
+	}).notNull()
+	.default(sql`(strftime('%s', 'now'))`),
+	updatedAt: integer('updated_at', {
+		mode: "timestamp"
+	}).notNull()
+	.default(sql`(strftime('%s', 'now'))`),
 	isActive: integer('is_active', { 
 		mode: 'boolean' 
 	}).notNull().default(true)
@@ -107,16 +129,45 @@ export const insertReviewSchema = createInsertSchema(review, {
 }).omit({ createdAt: true, updatedAt: true });
 export const updateReviewSchema = insertReviewSchema.pick({ comment: true, rating: true });
 
-export type Review = typeof review.$inferSelect;
+export const selectBusinessSchema = createSelectSchema(business);
+export const insertBusinessSchema = createInsertSchema(business, {
+	id: z.string().uuid(),
+	accountId: z.string().uuid(),
+	name: z.string(),
+	about: z.string(),
+	address: z.string(),
+	type: z.string(),
+	avatarUrl: z.string()
+});
+export const updateBusinessSchema = insertBusinessSchema.pick({ name: true, about: true, address: true, type: true });
 
-export type ReviewInsert = typeof review.$inferInsert;
+export const selectServiceSchema = createSelectSchema(service);
+export const insertServiceSchema = createInsertSchema(service, {
+	id: z.string().uuid(),
+	businessId: z.string().uuid(),
+	name: z.string(),
+	description: z.string(),
+	price: z.number(),
+	isActive: z.boolean()
+}).omit({ createdAt: true, updatedAt: true });
+export const updateServiceSchema = insertServiceSchema.pick({ name: true, description: true, price: true, isActive: true });
 
-export type Business = typeof business.$inferSelect;
+export const selectUserSchema = createSelectSchema(user);
+export const insertUserSchema = createInsertSchema(user, {
+	id: z.string().uuid(),
+	accountId: z.string().uuid(),
+	name: z.string(),
+	surname: z.string(),
+	avatarUrl: z.string()
+}).omit({ createdAt: true, updatedAt: true });
+export const updateUserSchema = insertUserSchema.pick({ name: true, surname: true, avatarUrl: true });
 
-export type Service = typeof service.$inferSelect;
-
-export type ServiceInsert = typeof service.$inferInsert;
+export const selectAccountSchema = createSelectSchema(account);
+export const insertAccountSchema = createInsertSchema(account, {
+	id: z.string().uuid(),
+	email: z.string().email(),
+	type: z.string(),
+}).omit({ createdAt: true, updatedAt: true });
+export const updateAccountSchema = insertAccountSchema.pick({ email: true, type: true });
 
 export type Session = typeof session.$inferSelect;
-
-export type User = typeof user.$inferSelect;
