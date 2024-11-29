@@ -1,4 +1,4 @@
-import { sql } from 'drizzle-orm';
+import { sql, type $Type } from 'drizzle-orm';
 import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
@@ -119,6 +119,7 @@ export const review = sqliteTable('review', {
 	.default(sql`(strftime('%s', 'now'))`),
 });
 
+/* Review */
 export const selectReviewSchema = createSelectSchema(review);
 export const insertReviewSchema = createInsertSchema(review, {
 	id: z.string().uuid(),
@@ -128,7 +129,11 @@ export const insertReviewSchema = createInsertSchema(review, {
 	rating: z.number().min(0.0).max(5.0),
 }).omit({ createdAt: true, updatedAt: true });
 export const updateReviewSchema = insertReviewSchema.pick({ comment: true, rating: true });
+export type Review  = typeof selectReviewSchema._type;
+export type ReviewInsert = typeof insertReviewSchema._type;
+export type ReviewUpdate = typeof updateReviewSchema._type;
 
+/* Business */
 export const selectBusinessSchema = createSelectSchema(business);
 export const insertBusinessSchema = createInsertSchema(business, {
 	id: z.string().uuid(),
@@ -140,7 +145,11 @@ export const insertBusinessSchema = createInsertSchema(business, {
 	avatarUrl: z.string()
 });
 export const updateBusinessSchema = insertBusinessSchema.pick({ name: true, about: true, address: true, type: true });
+export type Business = typeof selectBusinessSchema._type;
+export type BusinessInsert = typeof insertBusinessSchema._type;
+export type BusinessUpdate = typeof updateBusinessSchema._type;
 
+/* Service */
 export const selectServiceSchema = createSelectSchema(service);
 export const insertServiceSchema = createInsertSchema(service, {
 	id: z.string().uuid(),
@@ -151,7 +160,11 @@ export const insertServiceSchema = createInsertSchema(service, {
 	isActive: z.boolean()
 }).omit({ createdAt: true, updatedAt: true });
 export const updateServiceSchema = insertServiceSchema.pick({ name: true, description: true, price: true, isActive: true });
+export type Service = typeof selectServiceSchema._type;
+export type ServiceInsert = typeof insertServiceSchema._type;
+export type ServiceUpdate = typeof updateServiceSchema._type;
 
+/* User */
 export const selectUserSchema = createSelectSchema(user);
 export const insertUserSchema = createInsertSchema(user, {
 	id: z.string().uuid(),
@@ -161,7 +174,11 @@ export const insertUserSchema = createInsertSchema(user, {
 	avatarUrl: z.string()
 }).omit({ createdAt: true, updatedAt: true });
 export const updateUserSchema = insertUserSchema.pick({ name: true, surname: true, avatarUrl: true });
+export type User = typeof selectUserSchema._type;
+export type UserInsert = typeof insertUserSchema._type;
+export type UserUpdate = typeof updateUserSchema._type;
 
+/* Account */
 export const selectAccountSchema = createSelectSchema(account);
 export const insertAccountSchema = createInsertSchema(account, {
 	id: z.string().uuid(),
@@ -169,5 +186,8 @@ export const insertAccountSchema = createInsertSchema(account, {
 	type: z.string(),
 }).omit({ createdAt: true, updatedAt: true });
 export const updateAccountSchema = insertAccountSchema.pick({ email: true, type: true });
+export type Account = typeof selectAccountSchema._type;
+export type AccountInsert = typeof insertAccountSchema._type;
+export type AccountUpdate = typeof updateAccountSchema._type;
 
 export type Session = typeof session.$inferSelect;

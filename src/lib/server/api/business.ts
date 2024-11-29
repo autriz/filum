@@ -1,7 +1,7 @@
 import { eq } from "drizzle-orm";
 import { db } from "../db";
 import { randomUUID } from 'crypto';
-import { business, type Business } from "../db/schema";
+import { business, type Business, type BusinessInsert } from "../db/schema";
 import { service } from "../db/schema";
 
 export async function getBusinesses() {
@@ -16,7 +16,7 @@ export async function getBusiness(id: string) {
         .where(eq(business.id, id));
 }
 
-export async function createBusiness(newBusiness: Business) {
+export async function createBusiness(newBusiness: BusinessInsert) {
     const newBusinessData = {
         ...newBusiness,
         id: randomUUID()
