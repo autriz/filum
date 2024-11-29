@@ -1,0 +1,212 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API Documentation",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "\\(admin-panel)\\admin\\+": {},
+    "\\(admin-panel)\\admin\\accounts\\+": {},
+    "\\(admin-panel)\\admin\\accounts\\{accountId}\\+": {},
+    "\\(admin-panel)\\admin\\login\\+": {},
+    "\\(admin-panel)\\admin\\services\\+": {},
+    "\\(auth)\\login\\+": {},
+    "\\(auth)\\register\\choose\\business\\+": {},
+    "\\(auth)\\register\\choose\\user\\+": {},
+    "\\api\\business\\": {
+      "get": {
+        "summary": "Handler for GET request",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Handler for POST request",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "\\api\\business\\{businessId}\\": {
+      "get": {
+        "summary": "Handler for GET request",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "put": {
+        "summary": "Handler for PUT request",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Handler for DELETE request",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "\\api\\business\\{businessId}\\services\\": {
+      "get": {
+        "summary": "Handler for GET request",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Handler for POST request",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "\\api\\service\\": {
+      "get": {
+        "summary": "Handler for GET request",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "\\api\\service\\{serviceId}\\": {
+      "get": {
+        "summary": "Handler for GET request",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "\\api\\services\\": {
+      "get": {
+        "summary": "Handler for GET request",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "\\api\\services\\{serviceId}\\": {
+      "get": {
+        "summary": "Handler for GET request",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "\\business\\{businessId}\\+": {},
+    "\\lucia\\+": {},
+    "\\lucia\\login\\+": {},
+    "\\profile\\{profileId}\\+": {},
+    "\\search\\+": {},
+    "\\service\\{serviceId}\\+": {},
+    "\\service\\{serviceId}\\review\\{reviewId}\\+": {}
+  }
+}
