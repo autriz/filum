@@ -11,7 +11,7 @@
 	>
 		<a
 			href="/"
-			class="px-6 font-bold text-tertiary-400-600 hover:text-tertiary-300 motion-safe:transition-colors dark:hover:text-tertiary-500"
+			class="my-auto px-6 font-bold text-tertiary-400-600 hover:text-tertiary-300 motion-safe:transition-colors dark:hover:text-tertiary-500"
 		>
 			<span class="sr-only">Filum</span>
 			Filum
@@ -32,7 +32,7 @@
 				href="#"
 				class="flex items-center justify-center rounded-md border px-4 py-2 border-tertiary-400-600 hover:border-tertiary-300 hover:bg-tertiary-400-600 motion-safe:transition-colors dark:hover:border-tertiary-500"
 			>
-				Зарегистрироваться
+				Регистрация
 			</a>
 		</div>
 	</header>
