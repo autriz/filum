@@ -123,13 +123,18 @@ export const review = sqliteTable('review', {
 
 /* Review */
 export const selectReviewSchema = createSelectSchema(review, {
-	id: z.string().uuid(),
-	userId: z.string().uuid(),
-	serviceId: z.string().uuid(),
-	comment: z.string(),
-	rating: z.number().min(0.0).max(5.0),
-	createdAt: z.coerce.date(),
-	updatedAt: z.coerce.date()
+	id: z.string({ message: 'Review ID must be a string' }).uuid('Review ID must be UUID v4'),
+	userId: z.string({ message: 'User ID must be a string' }).uuid('User ID must be UUID v4'),
+	serviceId: z
+		.string({ message: 'Service ID must be a string' })
+		.uuid('Service ID must be UUID v4'),
+	comment: z.string({ message: 'Review comment must be a string' }),
+	rating: z
+		.number()
+		.min(0.0, 'Rating must be larger than 0')
+		.max(5.0, 'Rating must be smaller than 5'),
+	createdAt: z.coerce.date({ message: 'Created At must be a Date' }),
+	updatedAt: z.coerce.date({ message: 'Updated At must be a Date' })
 });
 export const insertReviewSchema = selectReviewSchema.omit({ createdAt: true, updatedAt: true });
 export const updateReviewSchema = insertReviewSchema.pick({ comment: true, rating: true });
@@ -139,13 +144,17 @@ export type ReviewUpdate = z.infer<typeof updateReviewSchema>;
 
 /* Business */
 export const selectBusinessSchema = createSelectSchema(business, {
-	id: z.string().uuid(),
-	accountId: z.string().uuid(),
-	name: z.string(),
-	about: z.string(),
-	address: z.string(),
-	type: z.enum(['company', 'freelancer']),
-	avatarUrl: z.string()
+	id: z.string({ message: 'Business ID must be a string' }).uuid('Business ID must be UUID v4'),
+	accountId: z
+		.string({ message: 'Account ID must be a string' })
+		.uuid('Account ID must be a string'),
+	name: z.string({ message: 'Business name must be a string' }),
+	about: z.string({ message: "Business' about must be a string" }),
+	address: z.string({ message: "Business' address must be a string" }),
+	type: z.enum(['company', 'freelancer'], {
+		message: 'Type must be either `company` or `freelancer`'
+	}),
+	avatarUrl: z.string({ message: 'Avatar URL must be a string' }).url('Avatar URL must be an URL')
 });
 export const insertBusinessSchema = selectBusinessSchema;
 export const updateBusinessSchema = insertBusinessSchema.pick({
@@ -160,14 +169,16 @@ export type BusinessUpdate = z.infer<typeof updateBusinessSchema>;
 
 /* Service */
 export const selectServiceSchema = createSelectSchema(service, {
-	id: z.string().uuid(),
-	businessId: z.string().uuid(),
-	name: z.string(),
-	description: z.string(),
-	price: z.number(),
-	isActive: z.boolean(),
-	createdAt: z.coerce.date(),
-	updatedAt: z.coerce.date()
+	id: z.string({ message: 'Service ID must be a string' }).uuid('Service ID must be UUID v4'),
+	businessId: z
+		.string({ message: 'Business ID must be a string' })
+		.uuid('Business ID must be UUID v4'),
+	name: z.string({ message: 'Service name must be a string' }),
+	description: z.string({ message: "Service's description must be a string" }),
+	price: z.number({ message: "Service's price must be a number" }),
+	isActive: z.boolean({ message: "Service's isActive must be a boolean" }),
+	createdAt: z.coerce.date({ message: 'Created At must be a Date' }),
+	updatedAt: z.coerce.date({ message: 'Updated At must be a Date' })
 });
 export const insertServiceSchema = selectServiceSchema.omit({ createdAt: true, updatedAt: true });
 export const putServiceSchema = insertServiceSchema.pick({
@@ -184,13 +195,15 @@ export type ServicePatch = z.infer<typeof patchServiceSchema>;
 
 /* User */
 export const selectUserSchema = createSelectSchema(user, {
-	id: z.string().uuid(),
-	accountId: z.string().uuid(),
-	name: z.string(),
-	surname: z.string(),
-	avatarUrl: z.string().url(),
-	createdAt: z.coerce.date(),
-	updatedAt: z.coerce.date()
+	id: z.string({ message: 'User ID must be a string' }).uuid('User ID must be UUID v4'),
+	accountId: z
+		.string({ message: 'Account ID must be a string' })
+		.uuid('Account ID must be a string'),
+	name: z.string({ message: "User's name must be a string" }),
+	surname: z.string({ message: "User's surname must be a string" }),
+	avatarUrl: z.string({ message: 'Avatar URL must be a string' }).url('Avatar URL must be an URL'),
+	createdAt: z.coerce.date({ message: 'Created At must be a Date' }),
+	updatedAt: z.coerce.date({ message: 'Updated At must be a Date' })
 });
 export const insertUserSchema = selectUserSchema.omit({ createdAt: true, updatedAt: true });
 export const patchUserSchema = insertUserSchema.pick({
@@ -205,12 +218,14 @@ export type UserUpdate = z.infer<typeof patchUserSchema>;
 
 /* Account */
 export const selectAccountSchema = createSelectSchema(account, {
-	id: z.string().uuid(),
-	email: z.string().email(),
-	passwordHash: z.string(),
-	type: z.enum(['user', 'company']),
-	createdAt: z.coerce.date(),
-	updatedAt: z.coerce.date()
+	id: z.string({ message: 'Account ID must be a string' }).uuid('Account ID must be a string'),
+	email: z
+		.string({ message: "Account's email must be a string" })
+		.email("Account's email must be an email"),
+	passwordHash: z.string({ message: "Account's password hash must be a string" }),
+	type: z.enum(['user', 'business'], { message: 'Type must be either `user` or `business`' }),
+	createdAt: z.coerce.date({ message: 'Created At must be a Date' }),
+	updatedAt: z.coerce.date({ message: 'Updated At must be a Date' })
 });
 export const insertAccountSchema = selectAccountSchema.omit({ createdAt: true, updatedAt: true });
 
