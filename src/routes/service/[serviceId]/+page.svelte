@@ -9,7 +9,9 @@
 		businessId: '1',
 		description: 'test description',
 		isActive: true,
-		price: 13000
+		price: 13000,
+		createdAt: new Date(Date.now()),
+		updatedAt: new Date(Date.now())
 	};
 	// days to complete?
 
@@ -28,7 +30,9 @@
 		accountId: '2',
 		name: 'aboba',
 		surname: 'abobovich',
-		avatarUrl: ''
+		avatarUrl: '',
+		createdAt: new Date(Date.now()),
+		updatedAt: new Date(Date.now())
 	};
 
 	let reviews: Review[] = [
@@ -71,7 +75,7 @@
 	];
 </script>
 
-<div
+<main
 	class="mx-auto flex min-h-full w-full flex-col gap-6 pt-6 lg:max-w-[1000px] 2xl:max-w-[1320px]"
 >
 	<div class="mx-4 flex flex-col gap-8 lg:flex-row">
@@ -115,4 +119,4 @@
 		</div>
 	</section>
 	<Container>Похожие услуги</Container>
-</div>
+</main>
