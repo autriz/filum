@@ -136,7 +136,11 @@ export const selectReviewSchema = createSelectSchema(review, {
 	createdAt: z.coerce.date({ message: 'Created At must be a Date' }),
 	updatedAt: z.coerce.date({ message: 'Updated At must be a Date' })
 });
-export const insertReviewSchema = selectReviewSchema.omit({ createdAt: true, updatedAt: true });
+export const insertReviewSchema = selectReviewSchema.omit({
+	id: true,
+	createdAt: true,
+	updatedAt: true
+});
 export const updateReviewSchema = insertReviewSchema.pick({ comment: true, rating: true });
 export type Review = z.infer<typeof selectReviewSchema>;
 export type ReviewInsert = z.infer<typeof insertReviewSchema>;
@@ -156,7 +160,7 @@ export const selectBusinessSchema = createSelectSchema(business, {
 	}),
 	avatarUrl: z.string({ message: 'Avatar URL must be a string' }).url('Avatar URL must be an URL')
 });
-export const insertBusinessSchema = selectBusinessSchema;
+export const insertBusinessSchema = selectBusinessSchema.omit({ id: true });
 export const updateBusinessSchema = insertBusinessSchema.pick({
 	name: true,
 	about: true,
@@ -180,7 +184,11 @@ export const selectServiceSchema = createSelectSchema(service, {
 	createdAt: z.coerce.date({ message: 'Created At must be a Date' }),
 	updatedAt: z.coerce.date({ message: 'Updated At must be a Date' })
 });
-export const insertServiceSchema = selectServiceSchema.omit({ createdAt: true, updatedAt: true });
+export const insertServiceSchema = selectServiceSchema.omit({
+	id: true,
+	createdAt: true,
+	updatedAt: true
+});
 export const putServiceSchema = insertServiceSchema.pick({
 	name: true,
 	description: true,
@@ -205,7 +213,11 @@ export const selectUserSchema = createSelectSchema(user, {
 	createdAt: z.coerce.date({ message: 'Created At must be a Date' }),
 	updatedAt: z.coerce.date({ message: 'Updated At must be a Date' })
 });
-export const insertUserSchema = selectUserSchema.omit({ createdAt: true, updatedAt: true });
+export const insertUserSchema = selectUserSchema.omit({
+	id: true,
+	createdAt: true,
+	updatedAt: true
+});
 export const patchUserSchema = insertUserSchema.pick({
 	name: true,
 	surname: true,
@@ -227,7 +239,11 @@ export const selectAccountSchema = createSelectSchema(account, {
 	createdAt: z.coerce.date({ message: 'Created At must be a Date' }),
 	updatedAt: z.coerce.date({ message: 'Updated At must be a Date' })
 });
-export const insertAccountSchema = selectAccountSchema.omit({ createdAt: true, updatedAt: true });
+export const insertAccountSchema = selectAccountSchema.omit({
+	id: true,
+	createdAt: true,
+	updatedAt: true
+});
 
 export type Account = z.infer<typeof selectAccountSchema>;
 export type AccountInsert = z.infer<typeof insertAccountSchema>;
