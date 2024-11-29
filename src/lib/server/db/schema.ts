@@ -159,10 +159,12 @@ export const insertServiceSchema = createInsertSchema(service, {
 	price: z.number(),
 	isActive: z.boolean()
 }).omit({ createdAt: true, updatedAt: true });
-export const updateServiceSchema = insertServiceSchema.pick({ name: true, description: true, price: true, isActive: true });
+export const putServiceSchema = insertServiceSchema.pick({ name: true, description: true, price: true, isActive: true });
+export const patchServiceSchema = putServiceSchema.partial();
 export type Service = typeof selectServiceSchema._type;
 export type ServiceInsert = typeof insertServiceSchema._type;
-export type ServiceUpdate = typeof updateServiceSchema._type;
+export type ServicePut = typeof putServiceSchema._type;
+export type ServicePatch = typeof patchServiceSchema._type;
 
 /* User */
 export const selectUserSchema = createSelectSchema(user);
