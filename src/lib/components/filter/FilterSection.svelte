@@ -10,7 +10,7 @@
 	const { children, title, class: className }: Props = $props();
 </script>
 
-<div class="flex flex-col">
+<div class="flex flex-col" data-vaul-no-drag>
 	<span class="text-lg font-bold">{title}</span>
 	<span class="{className} ml-2">
 		{#if children}
