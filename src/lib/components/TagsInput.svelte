@@ -21,8 +21,8 @@
 
 <div
 	use:melt={$root}
-	class="flex min-w-[280px] flex-row flex-wrap gap-2.5 rounded-md border border-surface-400 px-3 py-2 bg-surface-50-950 text-surface-700-300
-focus-within:border-primary-400 motion-safe:transition-colors"
+	class="flex min-w-[280px] flex-row flex-wrap gap-2.5 rounded-md border border-surface-400 bg-surface-50 px-3 py-2 text-surface-700-300 focus-within:border-primary-400
+motion-safe:transition-colors dark:bg-surface-900"
 >
 	{#each $tags as t}
 		<div
