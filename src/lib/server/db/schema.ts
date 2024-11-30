@@ -133,8 +133,8 @@ export const selectReviewSchema = createSelectSchema(review, {
 		.number()
 		.min(0.0, 'Rating must be larger than 0')
 		.max(5.0, 'Rating must be smaller than 5'),
-	createdAt: z.coerce.date({ message: 'Created At must be a Date' }),
-	updatedAt: z.coerce.date({ message: 'Updated At must be a Date' })
+	createdAt: z.coerce.date({ message: 'Created At must be a Date' }).optional(),
+	updatedAt: z.coerce.date({ message: 'Updated At must be a Date' }).optional()
 });
 export const insertReviewSchema = selectReviewSchema.omit({
 	id: true,
@@ -158,7 +158,10 @@ export const selectBusinessSchema = createSelectSchema(business, {
 	type: z.enum(['company', 'freelancer'], {
 		message: 'Type must be either `company` or `freelancer`'
 	}),
-	avatarUrl: z.string({ message: 'Avatar URL must be a string' }).url('Avatar URL must be an URL')
+	avatarUrl: z
+		.string({ message: 'Avatar URL must be a string' })
+		.url('Avatar URL must be an URL')
+		.optional()
 });
 export const insertBusinessSchema = selectBusinessSchema.omit({ id: true });
 export const updateBusinessSchema = insertBusinessSchema.pick({
@@ -180,9 +183,9 @@ export const selectServiceSchema = createSelectSchema(service, {
 	name: z.string({ message: 'Service name must be a string' }),
 	description: z.string({ message: "Service's description must be a string" }),
 	price: z.number({ message: "Service's price must be a number" }),
-	isActive: z.boolean({ message: "Service's isActive must be a boolean" }),
-	createdAt: z.coerce.date({ message: 'Created At must be a Date' }),
-	updatedAt: z.coerce.date({ message: 'Updated At must be a Date' })
+	isActive: z.boolean({ message: "Service's isActive must be a boolean" }).optional(),
+	createdAt: z.coerce.date({ message: 'Created At must be a Date' }).optional(),
+	updatedAt: z.coerce.date({ message: 'Updated At must be a Date' }).optional()
 });
 export const insertServiceSchema = selectServiceSchema.omit({
 	id: true,
@@ -209,9 +212,12 @@ export const selectUserSchema = createSelectSchema(user, {
 		.uuid('Account ID must be a string'),
 	name: z.string({ message: "User's name must be a string" }),
 	surname: z.string({ message: "User's surname must be a string" }),
-	avatarUrl: z.string({ message: 'Avatar URL must be a string' }).url('Avatar URL must be an URL'),
-	createdAt: z.coerce.date({ message: 'Created At must be a Date' }),
-	updatedAt: z.coerce.date({ message: 'Updated At must be a Date' })
+	avatarUrl: z
+		.string({ message: 'Avatar URL must be a string' })
+		.url('Avatar URL must be an URL')
+		.optional(),
+	createdAt: z.coerce.date({ message: 'Created At must be a Date' }).optional(),
+	updatedAt: z.coerce.date({ message: 'Updated At must be a Date' }).optional()
 });
 export const insertUserSchema = selectUserSchema.omit({
 	id: true,
