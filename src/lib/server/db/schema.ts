@@ -158,10 +158,7 @@ export const selectBusinessSchema = createSelectSchema(business, {
 	type: z.enum(['company', 'freelancer'], {
 		message: 'Type must be either `company` or `freelancer`'
 	}),
-	avatarUrl: z
-		.string({ message: 'Avatar URL must be a string' })
-		.url('Avatar URL must be an URL')
-		.optional()
+	avatarUrl: z.string({ message: 'Avatar URL must be a string' }).url('Avatar URL must be an URL')
 });
 export const insertBusinessSchema = selectBusinessSchema.omit({ id: true });
 export const updateBusinessSchema = insertBusinessSchema.pick({
@@ -212,10 +209,7 @@ export const selectUserSchema = createSelectSchema(user, {
 		.uuid('Account ID must be a string'),
 	name: z.string({ message: "User's name must be a string" }),
 	surname: z.string({ message: "User's surname must be a string" }),
-	avatarUrl: z
-		.string({ message: 'Avatar URL must be a string' })
-		.url('Avatar URL must be an URL')
-		.optional(),
+	avatarUrl: z.string({ message: 'Avatar URL must be a string' }).url('Avatar URL must be an URL'),
 	createdAt: z.coerce.date({ message: 'Created At must be a Date' }).optional(),
 	updatedAt: z.coerce.date({ message: 'Updated At must be a Date' }).optional()
 });
