@@ -1,3 +1,7 @@
+<script>
+	import Search from '$lib/components/Search.svelte';
+</script>
+
 <div class="relative isolate h-full overflow-hidden px-6 pt-14 lg:px-8">
 	<div
 		class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80 lg:-top-60"
@@ -8,7 +12,7 @@
 			style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"
 		></div>
 	</div>
-	<div class="m-auto max-w-2xl py-48 sm:py-48 lg:py-64">
+	<div class="m-auto max-w-2xl py-32 sm:py-48 lg:py-64">
 		<svg aria-hidden="true" class="mask absolute inset-0 -z-10 h-full w-full stroke-surface-600/30">
 			<defs>
 				<pattern
@@ -36,20 +40,11 @@
 				Filum
 			</h1>
 			<p class="mt-8 text-pretty text-lg font-medium sm:text-xl/8">TODO</p>
-			<form class="mx-auto mt-6 flex max-w-md items-center" action="/search">
-				<label for="simple-search" class="sr-only">Search</label>
-				<div class="relative w-full">
-					<input
-						type="text"
-						id="simple-search"
-						name="q"
-						class="block w-full rounded-lg border border-surface-300 bg-surface-50 p-2.5 pe-10 text-sm outline-none ring-transparent transition-colors text-surface-950-50 focus:border-primary-500 focus:ring-primary-500 dark:border-surface-600 dark:bg-surface-900 dark:placeholder-surface-300 dark:focus:border-primary-500 dark:focus:ring-primary-500"
-						placeholder="Поиск услуг, бизнесов..."
-					/>
-				</div>
+			<form class="mx-auto mt-6 flex max-w-lg items-center" action="/search">
+				<Search />
 				<button
 					type="submit"
-					class="ms-2 flex flex-row items-center justify-center gap-3 rounded-lg border border-primary-700 bg-primary-700 p-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 motion-safe:transition-colors dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
+					class="text-md ms-2 flex flex-row items-center justify-center gap-3 rounded-lg border border-primary-700 bg-primary-700 p-2.5 font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4 focus:ring-primary-300 motion-safe:transition-colors dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
 				>
 					<svg
 						class="h-4 w-4"
