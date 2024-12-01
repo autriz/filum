@@ -7,6 +7,8 @@
 
 <svelte:head>
 	<title>Filum</title>
+	<meta property="og:title" content="Filum" />
+	<meta property="og:description" content="Filum - это агрегатор IT услуг по Самарской области" />
 </svelte:head>
 
 <div class="bg-surface-50-950 text-surface-950-50">
