@@ -16,7 +16,7 @@
 	let data: NewService = {
 		id: '1',
 		businessId: '1',
-		name: 'Разработка API и интеграция',
+		title: 'Разработка API и интеграция',
 		description:
 			'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem tempora libero fugit obcaecati sapiente commodi vitae quos dolore tenetur optio repellat, accusantium quas necessitatibus fugiat quam dignissimos nemo aspernatur id quis eos. Reprehenderit maxime cumque excepturi dicta blanditiis a incidunt magni libero, repellendus maiores sunt, reiciendis, quidem est vero ducimus alias error. Distinctio, tenetur! Distinctio quaerat delectus officia dicta doloribus! Dolorum accusamus ea enim distinctio! Tempore, corrupti nobis placeat atque dolore provident quis nisi tempora velit. Dolore illo, optio doloribus corporis quisquam sapiente adipisci consequatur labore dolores commodi laboriosam ex vel! Et veniam atque, cum culpa ullam in. Exercitationem, facilis?',
 		shortDescription:
@@ -104,7 +104,7 @@
 	</a>
 	<div class="grid gap-12 md:grid-cols-[2fr_1fr]">
 		<section>
-			<h1 class="mb-4 text-3xl font-bold md:text-4xl">{data.name}</h1>
+			<h1 class="mb-4 text-3xl font-bold md:text-4xl">{data.title}</h1>
 			<h2 class="text-2xl font-semibold text-surface-300">{formatter.format(data.price)}</h2>
 		</section>
 		<section

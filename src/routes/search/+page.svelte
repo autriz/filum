@@ -41,7 +41,7 @@
 		{
 			id: '1',
 			businessId: '1',
-			name: 'Разработка API и интеграция',
+			title: 'Разработка API и интеграция',
 			description: '',
 			shortDescription:
 				'Custom API solutions to connect your web applications with external services.',
@@ -54,7 +54,7 @@
 		{
 			id: '2',
 			businessId: '1',
-			name: 'Cloud Hosting Solutions',
+			title: 'Cloud Hosting Solutions',
 			description: '',
 			shortDescription:
 				'Reliable and scalable cloud hosting services for your web applications and databases.',
@@ -67,7 +67,7 @@
 		{
 			id: '1',
 			businessId: '1',
-			name: 'Разработка API и интеграция',
+			title: 'Разработка API и интеграция',
 			description: '',
 			shortDescription:
 				'Custom API solutions to connect your web applications with external services.',
@@ -80,7 +80,7 @@
 		{
 			id: '1',
 			businessId: '1',
-			name: 'Разработка API и интеграция',
+			title: 'Разработка API и интеграция',
 			description: '',
 			shortDescription:
 				'Custom API solutions to connect your web applications with external services.',
@@ -93,7 +93,7 @@
 		{
 			id: '1',
 			businessId: '1',
-			name: 'Разработка API и интеграция',
+			title: 'Разработка API и интеграция',
 			description: '',
 			shortDescription:
 				'Custom API solutions to connect your web applications with external services.',
@@ -106,7 +106,7 @@
 		{
 			id: '1',
 			businessId: '1',
-			name: 'Разработка API и интеграция',
+			title: 'Разработка API и интеграция',
 			description: '',
 			shortDescription:
 				'Custom API solutions to connect your web applications with external services.',
@@ -119,7 +119,7 @@
 		{
 			id: '1',
 			businessId: '1',
-			name: 'Разработка API и интеграция',
+			title: 'Разработка API и интеграция',
 			description: '',
 			shortDescription:
 				'Custom API solutions to connect your web applications with external services.',
@@ -132,7 +132,7 @@
 		{
 			id: '1',
 			businessId: '1',
-			name: 'Разработка API и интеграция',
+			title: 'Разработка API и интеграция',
 			description: '',
 			shortDescription:
 				'Custom API solutions to connect your web applications with external services.',
@@ -145,7 +145,7 @@
 		{
 			id: '1',
 			businessId: '1',
-			name: 'Разработка API и интеграция',
+			title: 'Разработка API и интеграция',
 			description: '',
 			shortDescription:
 				'Custom API solutions to connect your web applications with external services.',
@@ -158,7 +158,7 @@
 		{
 			id: '1',
 			businessId: '1',
-			name: 'Разработка API и интеграция',
+			title: 'Разработка API и интеграция',
 			description: '',
 			shortDescription:
 				'Custom API solutions to connect your web applications with external services.',
@@ -171,7 +171,7 @@
 		{
 			id: '1',
 			businessId: '1',
-			name: 'Разработка API и интеграция',
+			title: 'Разработка API и интеграция',
 			description: '',
 			shortDescription:
 				'Custom API solutions to connect your web applications with external services.',

@@ -49,9 +49,19 @@ export const businessContact = sqliteTable('business_contact', {
 	contact: text('contact').notNull()
 });
 
-// export const businessTag = sqliteTable('business_tag', {
+export const tag = sqliteTable('tag', {
+	id: text('id').primaryKey(),
+	text: text('text').notNull()
+});
 
-// })
+export const businessTag = sqliteTable('business_tag', {
+	businessId: text('business_id')
+		.notNull()
+		.references(() => business.id, { onDelete: 'cascade' }),
+	tagId: text('tag_id')
+		.notNull()
+		.references(() => tag.id, { onDelete: 'cascade' })
+});
 
 export const business = sqliteTable('business', {
 	id: text('id').primaryKey(),
@@ -81,7 +91,8 @@ export const service = sqliteTable('service', {
 	businessId: text('business_id')
 		.notNull()
 		.references(() => business.id, { onDelete: 'cascade' }),
-	name: text('name').notNull(),
+	title: text('title').notNull(),
+	shortDescription: text('short_description').notNull(),
 	description: text('description').notNull(),
 	price: integer('price').notNull(),
 	createdAt: integer('created_at', {
@@ -99,6 +110,15 @@ export const service = sqliteTable('service', {
 	})
 		.notNull()
 		.default(true)
+});
+
+export const serviceTag = sqliteTable('service_tag', {
+	serviceId: text('service_id')
+		.notNull()
+		.references(() => service.id, { onDelete: 'cascade' }),
+	tag_id: text('tag_id')
+		.notNull()
+		.references(() => tag.id, { onDelete: 'cascade' })
 });
 
 export const review = sqliteTable('review', {
@@ -173,13 +193,38 @@ export type Business = z.infer<typeof selectBusinessSchema>;
 export type BusinessInsert = z.infer<typeof insertBusinessSchema>;
 export type BusinessUpdate = z.infer<typeof updateBusinessSchema>;
 
+/* Business contact */
+const businessContactIds = z.object({
+	id: z
+		.string({ message: 'Business contact ID must be a string' })
+		.uuid('Business contact ID must be UUID v4'),
+	businessId: z
+		.string({ message: 'Business ID must be a string' })
+		.uuid('Business ID must be UUID v4')
+});
+const businessContactEmail = z.object({
+	contact: z.string({ message: 'Contact must be a string' }).email('Contact must be an email'),
+	type: z.enum(['email'])
+});
+const businessContactWebsite = z.object({
+	contact: z.string({ message: 'Contact must be a string' }).url('Contact must be URL'),
+	type: z.enum(['website'])
+});
+const businessContactOther = z.object({
+	contact: z.string({ message: 'Contact must be a string' }),
+	type: z.enum(['phone', 'telegram', 'whatsapp', 'viber'])
+});
+export const businessContactSchema = businessContactIds.and(
+	businessContactOther.or(businessContactWebsite).or(businessContactEmail)
+);
+
 /* Service */
 export const selectServiceSchema = createSelectSchema(service, {
 	id: z.string({ message: 'Service ID must be a string' }).uuid('Service ID must be UUID v4'),
 	businessId: z
 		.string({ message: 'Business ID must be a string' })
 		.uuid('Business ID must be UUID v4'),
-	name: z.string({ message: 'Service name must be a string' }),
+	title: z.string({ message: 'Service title must be a string' }),
 	description: z.string({ message: "Service's description must be a string" }),
 	price: z.number({ message: "Service's price must be a number" }),
 	isActive: z.boolean({ message: "Service's isActive must be a boolean" }).optional(),
@@ -192,7 +237,7 @@ export const insertServiceSchema = selectServiceSchema.omit({
 	updatedAt: true
 });
 export const putServiceSchema = insertServiceSchema.pick({
-	name: true,
+	title: true,
 	description: true,
 	price: true,
 	isActive: true
