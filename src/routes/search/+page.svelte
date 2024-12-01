@@ -345,7 +345,10 @@
 				{#each new_services as service}
 					<Card>
 						<div class="flex flex-col space-y-1.5 p-6">
-							<a class="text-2xl font-semibold leading-none tracking-tight" href="/service/{1}">
+							<a
+								class="text-2xl font-semibold leading-none tracking-tight"
+								href="/service/{service.id}"
+							>
 								Cloud hosting solutions
 							</a>
 						</div>
@@ -358,19 +361,22 @@
 							<p class="flex flex-row items-center gap-1">
 								Rating: 4.6/5.0 <Star class="h-5 w-5 fill-yellow-500 stroke-yellow-900 stroke-1" />
 							</p>
-							<p class="mt-2 text-sm text-surface-300">Offered by: CloudNine Hosting</p>
+							<p class="mt-2 text-sm text-surface-300">
+								Offered by: <a href="/business/{business.id}">CloudNine Hosting</a>
+							</p>
 						</div>
 						<div class="flex flex-col items-start p-6 pt-0">
-							<button
+							<a
 								class="focus-visible:ring-ring inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap
-								rounded-md border border-surface-200 bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors hover:border-surface-300
-								hover:bg-surface-100-900 hover:text-surface-900-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2
-								disabled:pointer-events-none disabled:opacity-50 dark:border-surface-800 dark:hover:border-surface-700 [&_svg]:pointer-events-none
+								rounded-md border bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors
+								border-surface-200-800 hover:bg-surface-100-900 hover:text-surface-900-100 hover:border-surface-300-700 focus-visible:outline-none
+								focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none
 								[&_svg]:size-4 [&_svg]:shrink-0"
+								href="/service/{service.id}"
 							>
 								Узнать больше
 								<ArrowRight />
-							</button>
+							</a>
 						</div>
 					</Card>
 				{/each}

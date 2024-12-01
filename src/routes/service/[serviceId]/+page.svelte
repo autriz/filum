@@ -96,7 +96,7 @@
 </script>
 
 <main class="mx-auto flex w-full flex-col gap-6 px-1 pt-2 lg:max-w-[1000px] 2xl:max-w-[1320px]">
-	<a class="flex w-fit items-center justify-center gap-2 [&_svg]:size-4" href="/search">
+	<a class="mt-2 flex w-fit items-center justify-center gap-2 [&_svg]:size-4" href="/search">
 		<ArrowLeft />
 		Back to services
 	</a>
@@ -163,7 +163,9 @@
 							/>
 						</a>
 						<div>
-							<a class="text-2xl font-bold" href="/profile/{user.id}">{user.name}</a>
+							<a class="text-ellipsis text-2xl font-bold" href="/profile/{user.id}"
+								>{user.name} {user.surname}</a
+							>
 							<div class="overflow-hidden" style="width: {rating}rem;">
 								<span class="sr-only">{rating} звёзд</span>
 								<span class="flex w-fit flex-row">
