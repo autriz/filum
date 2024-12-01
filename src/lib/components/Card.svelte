@@ -1,9 +1,18 @@
-<script>
-	let { children, class: className = '' } = $props();
+<script lang="ts">
+	import type { Snippet } from 'svelte';
+
+	type Props = {
+		children?: Snippet<[]>;
+		class?: string;
+	};
+
+	let { children, class: className = '' }: Props = $props();
 </script>
 
 <div
 	class="{className} rounded-md border border-surface-100 shadow-sm dark:border-surface-800 dark:bg-surface-900/60"
 >
-	{@render children()}
+	{#if children}
+		{@render children()}
+	{/if}
 </div>
