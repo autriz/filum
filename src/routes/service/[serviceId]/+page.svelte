@@ -95,7 +95,9 @@
 	];
 </script>
 
-<main class="mx-auto flex w-full flex-col gap-6 px-1 pt-2 lg:max-w-[1000px] 2xl:max-w-[1320px]">
+<main
+	class="mx-auto flex w-full flex-col gap-6 px-2 pb-3 pt-2 lg:max-w-[1000px] 2xl:max-w-[1320px]"
+>
 	<a class="mt-2 flex w-fit items-center justify-center gap-2 [&_svg]:size-4" href="/search">
 		<ArrowLeft />
 		Back to services

@@ -83,7 +83,9 @@
 	};
 </script>
 
-<main class="mx-auto flex w-full flex-col gap-6 px-1 pt-2 lg:max-w-[1000px] 2xl:max-w-[1320px]">
+<main
+	class="mx-auto flex w-full flex-col gap-6 px-2 pb-3 pt-2 lg:max-w-[1000px] 2xl:max-w-[1320px]"
+>
 	<div class="grid gap-12 md:grid-cols-[2fr_1fr]">
 		<div class="space-y-8">
 			<section class="flex items-center space-x-6">
@@ -154,7 +156,7 @@
 			</section>
 		</div>
 		<div>
-			<Card class="sticky top-4">
+			<Card class="sticky top-16">
 				<div class="flex flex-col space-y-1.5 p-6">
 					<h3 class="text-2xl font-semibold leading-none tracking-tight">Contact Information</h3>
 				</div>
