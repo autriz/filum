@@ -5,6 +5,10 @@
 	let { children } = $props();
 </script>
 
+<svelte:head>
+	<title>Filum</title>
+</svelte:head>
+
 <div class="bg-surface-50-950 text-surface-950-50">
 	<header
 		class="fixed top-0 z-10 flex h-14 w-full flex-row gap-3 border-b border-surface-800 px-3 py-2 text-lg dark:bg-surface-50-950"

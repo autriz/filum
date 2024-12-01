@@ -87,9 +87,13 @@
 	class="mx-auto flex w-full flex-col gap-6 px-2 pb-3 pt-2 lg:max-w-[1000px] 2xl:max-w-[1320px]"
 >
 	<div class="grid gap-12 md:grid-cols-[2fr_1fr]">
-		<div class="space-y-8">
+		<div class="mt-3 space-y-8">
 			<section class="flex items-center space-x-6">
-				<Avatar src={business.logo} alt={business.name} />
+				<Avatar
+					class="h-16 w-16 rounded-full bg-surface-400 text-3xl"
+					src={business.logo}
+					alt={business.name}
+				/>
 				<div>
 					<h1 class="text-3xl font-bold md:text-4xl">{business.name}</h1>
 					<div class="mt-2 flex items-center">

@@ -18,7 +18,12 @@
 	});
 </script>
 
-<button class="{className} flex appearance-none items-center justify-center" use:melt={$root} {id}>
+<button
+	aria-label="checkbox"
+	class="{className} flex appearance-none items-center justify-center"
+	use:melt={$root}
+	{id}
+>
 	{#if $isChecked}
 		<Check class="size-5" />
 	{/if}
