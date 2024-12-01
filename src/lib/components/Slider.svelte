@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { createSlider, melt, type CreateSliderProps } from '@melt-ui/svelte';
 	import { writable } from 'svelte/store';
+	import { twMerge } from 'tailwind-merge';
 
 	type Props = CreateSliderProps & {
 		class?: string;
@@ -14,7 +15,7 @@
 	} = createSlider(props);
 </script>
 
-<span use:melt={$root} class="{className} relative flex items-center">
+<span use:melt={$root} class={twMerge(' relative flex items-center', className)}>
 	<span class="bg-surface-950-50/40 h-[3px] w-full">
 		<span use:melt={$range} class="h-[3px] bg-primary-400"></span>
 	</span>

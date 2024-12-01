@@ -35,7 +35,7 @@
 				{/if}
 			</button>
 			<label
-				class="font-medium capitalize leading-none text-surface-950-50"
+				class="text-sm font-medium capitalize leading-none text-surface-950-50"
 				for={option.value}
 				id="{option.value}-label"
 			>

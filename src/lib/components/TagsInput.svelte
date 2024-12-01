@@ -1,10 +1,13 @@
 <script lang="ts">
 	import { createTagsInput, melt, type CreateTagsInputProps } from '@melt-ui/svelte';
 	import { X } from 'lucide-svelte';
+	import { twMerge } from 'tailwind-merge';
 
-	type Props = CreateTagsInputProps;
+	type Props = CreateTagsInputProps & {
+		class?: string;
+	};
 
-	let { ...props }: Props = $props();
+	let { class: className, ...props }: Props = $props();
 
 	const {
 		elements: { root, input, tag, deleteTrigger, edit },
@@ -21,8 +24,12 @@
 
 <div
 	use:melt={$root}
-	class="flex min-w-[280px] flex-row flex-wrap gap-2.5 rounded-md border border-surface-400 bg-surface-50 px-3 py-2 text-surface-700-300 focus-within:border-primary-400
-motion-safe:transition-colors dark:bg-surface-900"
+	class={twMerge(
+		'flex min-w-[280px] flex-row flex-wrap gap-2.5 rounded-md border border-surface-400 \
+		bg-surface-50 px-3 py-2 text-surface-700-300 focus-within:border-primary-400 \
+		motion-safe:transition-colors dark:bg-surface-900',
+		className
+	)}
 >
 	{#each $tags as t}
 		<div

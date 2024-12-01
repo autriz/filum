@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { createAvatar, melt, type CreateAvatarProps } from '@melt-ui/svelte';
+	import { twMerge } from 'tailwind-merge';
 
 	type Props = CreateAvatarProps & { class?: string; alt?: string };
 
@@ -28,7 +29,7 @@
 	});
 </script>
 
-<div class="{className} flex items-center justify-center">
+<div class={twMerge('flex items-center justify-center', className)}>
 	<img use:melt={$image} alt="Avatar" class="h-full w-full rounded-[inherit]" />
 	<span use:melt={$fallback} class="font-medium text-[inherit]">
 		{shortenedAlt}
