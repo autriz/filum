@@ -9,7 +9,9 @@ export const account = sqliteTable('account', {
 	passwordHash: text('password_hash').notNull(),
 	createdAt: integer('created_at', {
 		mode: 'timestamp'
-	}).notNull(),
+	})
+		.notNull()
+		.default(sql`(strftime('%s', 'now'))`),
 	updatedAt: integer('updated_at', {
 		mode: 'timestamp'
 	})
