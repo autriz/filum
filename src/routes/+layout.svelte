@@ -7,7 +7,7 @@
 
 <div class="bg-surface-50-950 text-surface-950-50">
 	<header
-		class="fixed top-0 z-10 flex h-14 w-full flex-row gap-3 bg-surface-50 px-3 py-2 text-lg dark:bg-surface-950"
+		class="fixed top-0 z-10 flex h-14 w-full flex-row gap-3 border-b border-surface-800 px-3 py-2 text-lg dark:bg-surface-50-950"
 	>
 		<a
 			href="/"
@@ -23,13 +23,13 @@
 		<span class="grow"></span>
 		<div class="flex gap-4 px-6">
 			<a
-				href="#"
+				href="/login"
 				class="flex items-center justify-center rounded-md border px-4 py-2 border-tertiary-400-600 hover:border-tertiary-300 motion-safe:transition-colors dark:hover:border-tertiary-500"
 			>
 				Войти
 			</a>
 			<a
-				href="#"
+				href="/register"
 				class="flex items-center justify-center rounded-md border px-4 py-2 border-tertiary-400-600 hover:border-tertiary-300 hover:bg-tertiary-400-600 motion-safe:transition-colors dark:hover:border-tertiary-500"
 			>
 				Регистрация
