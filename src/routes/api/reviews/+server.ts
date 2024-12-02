@@ -1,4 +1,4 @@
-import { saveReviewForService } from '$lib/server/api/review';
+import { getReviews, saveReviewForService } from '$lib/server/api/review';
 import { insertReviewSchema, type ReviewInsert } from '$lib/server/db/schema';
 import { json } from '@sveltejs/kit';
 import { randomUUID } from 'crypto';
@@ -30,3 +30,8 @@ type ReviewInsert = {
     comment: string;
 }
 */
+
+export async function GET() {
+    const reviews = getReviews()
+    return await json(reviews);
+}

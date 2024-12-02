@@ -3,6 +3,11 @@ import { db } from "../db";
 import { review, service, type ReviewInsert, type ReviewUpdate } from "../db/schema";
 import type type from "lucide-svelte/icons/type";
 
+export async function getReviews() {
+    return await db.select()
+        .from(review)
+}
+
 export async function getReviewsForService(serviceId: string) {
     return await db.select()
         .from(review)
