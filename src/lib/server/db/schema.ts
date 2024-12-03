@@ -3,7 +3,7 @@ import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-export const account = sqliteTable('account', {
+export const accounts = sqliteTable('account', {
 	id: text('id').primaryKey(),
 	email: text('email').notNull(),
 	passwordHash: text('password_hash').notNull(),
@@ -17,17 +17,22 @@ export const account = sqliteTable('account', {
 	})
 		.notNull()
 		.default(sql`(strftime('%s', 'now'))`),
-	type: text('type').notNull()
+	type: text('type').notNull(),
+	isAdmin: integer('is_admin', {
+		mode: 'boolean'
+	})
+		.notNull()
+		.default(false)
 });
 
-export const user = sqliteTable('user', {
+export const users = sqliteTable('user', {
 	id: text('id').primaryKey(),
 	name: text('name').notNull(),
 	surname: text('surname').notNull(),
 	avatarUrl: text('avatar_url').notNull().default(''),
 	accountId: text('account_id')
 		.notNull()
-		.references(() => account.id, { onDelete: 'cascade' }),
+		.references(() => accounts.id, { onDelete: 'cascade' }),
 	createdAt: integer('created_at', {
 		mode: 'timestamp'
 	})
@@ -44,7 +49,7 @@ export const businessContact = sqliteTable('business_contact', {
 	id: text('id').primaryKey(),
 	businessId: text('business_id')
 		.notNull()
-		.references(() => business.id, { onDelete: 'cascade' }),
+		.references(() => businesses.id, { onDelete: 'cascade' }),
 	type: text('type').notNull(), // email, phone, telegram, whatsapp, viber, etc.
 	contact: text('contact').notNull()
 });
@@ -57,13 +62,13 @@ export const tag = sqliteTable('tag', {
 export const businessTag = sqliteTable('business_tag', {
 	businessId: text('business_id')
 		.notNull()
-		.references(() => business.id, { onDelete: 'cascade' }),
+		.references(() => businesses.id, { onDelete: 'cascade' }),
 	tagId: text('tag_id')
 		.notNull()
 		.references(() => tag.id, { onDelete: 'cascade' })
 });
 
-export const business = sqliteTable('business', {
+export const businesses = sqliteTable('business', {
 	id: text('id').primaryKey(),
 	name: text('name').notNull(),
 	avatarUrl: text('avatar_url').notNull().default(''),
@@ -73,24 +78,24 @@ export const business = sqliteTable('business', {
 	type: text('type').notNull(),
 	accountId: text('account_id')
 		.notNull()
-		.references(() => account.id, { onDelete: 'cascade' })
+		.references(() => accounts.id, { onDelete: 'cascade' })
 });
 
 export const session = sqliteTable('session', {
 	id: text('id').primaryKey(),
 	accountId: text('account_id')
 		.notNull()
-		.references(() => account.id, { onDelete: 'cascade' }),
+		.references(() => accounts.id, { onDelete: 'cascade' }),
 	expiresAt: integer('expires_at', {
 		mode: 'timestamp'
 	}).notNull()
 });
 
-export const service = sqliteTable('service', {
+export const services = sqliteTable('service', {
 	id: text('id').primaryKey(),
 	businessId: text('business_id')
 		.notNull()
-		.references(() => business.id, { onDelete: 'cascade' }),
+		.references(() => businesses.id, { onDelete: 'cascade' }),
 	title: text('title').notNull(),
 	shortDescription: text('short_description').notNull(),
 	description: text('description').notNull(),
@@ -115,20 +120,20 @@ export const service = sqliteTable('service', {
 export const serviceTag = sqliteTable('service_tag', {
 	serviceId: text('service_id')
 		.notNull()
-		.references(() => service.id, { onDelete: 'cascade' }),
+		.references(() => services.id, { onDelete: 'cascade' }),
 	tag_id: text('tag_id')
 		.notNull()
 		.references(() => tag.id, { onDelete: 'cascade' })
 });
 
-export const review = sqliteTable('review', {
+export const reviews = sqliteTable('review', {
 	id: text('id').primaryKey(),
 	serviceId: text('service_id')
 		.notNull()
-		.references(() => service.id, { onDelete: 'cascade' }),
+		.references(() => services.id, { onDelete: 'cascade' }),
 	userId: text('user_id')
 		.notNull()
-		.references(() => user.id, { onDelete: 'set null' }),
+		.references(() => users.id, { onDelete: 'set null' }),
 	rating: integer('rating').notNull(),
 	comment: text('comment').notNull(),
 	createdAt: integer('created_at', {
@@ -144,7 +149,7 @@ export const review = sqliteTable('review', {
 });
 
 /* Review */
-export const selectReviewSchema = createSelectSchema(review, {
+export const selectReviewSchema = createSelectSchema(reviews, {
 	id: z.string({ message: 'Review ID must be a string' }).uuid('Review ID must be UUID v4'),
 	userId: z.string({ message: 'User ID must be a string' }).uuid('User ID must be UUID v4'),
 	serviceId: z
@@ -169,7 +174,7 @@ export type ReviewInsert = z.infer<typeof insertReviewSchema>;
 export type ReviewUpdate = z.infer<typeof updateReviewSchema>;
 
 /* Business */
-export const selectBusinessSchema = createSelectSchema(business, {
+export const selectBusinessSchema = createSelectSchema(businesses, {
 	id: z.string({ message: 'Business ID must be a string' }).uuid('Business ID must be UUID v4'),
 	accountId: z
 		.string({ message: 'Account ID must be a string' })
@@ -219,7 +224,7 @@ export const businessContactSchema = businessContactIds.and(
 );
 
 /* Service */
-export const selectServiceSchema = createSelectSchema(service, {
+export const selectServiceSchema = createSelectSchema(services, {
 	id: z.string({ message: 'Service ID must be a string' }).uuid('Service ID must be UUID v4'),
 	businessId: z
 		.string({ message: 'Business ID must be a string' })
@@ -249,7 +254,7 @@ export type ServicePut = z.infer<typeof putServiceSchema>;
 export type ServicePatch = z.infer<typeof patchServiceSchema>;
 
 /* User */
-export const selectUserSchema = createSelectSchema(user, {
+export const selectUserSchema = createSelectSchema(users, {
 	id: z.string({ message: 'User ID must be a string' }).uuid('User ID must be UUID v4'),
 	accountId: z
 		.string({ message: 'Account ID must be a string' })
@@ -276,15 +281,18 @@ export type UserInsert = z.infer<typeof insertUserSchema>;
 export type UserUpdate = z.infer<typeof patchUserSchema>;
 
 /* Account */
-export const selectAccountSchema = createSelectSchema(account, {
+export const selectAccountSchema = createSelectSchema(accounts, {
 	id: z.string({ message: 'Account ID must be a string' }).uuid('Account ID must be a string'),
 	email: z
 		.string({ message: "Account's email must be a string" })
 		.email("Account's email must be an email"),
 	passwordHash: z.string({ message: "Account's password hash must be a string" }),
-	type: z.enum(['user', 'business'], { message: 'Type must be either `user` or `business`' }),
+	type: z.enum(['user', 'business'], {
+		message: 'Type must be either `user` or `business`'
+	}),
 	createdAt: z.coerce.date({ message: 'Created At must be a Date' }),
-	updatedAt: z.coerce.date({ message: 'Updated At must be a Date' })
+	updatedAt: z.coerce.date({ message: 'Updated At must be a Date' }),
+	isAdmin: z.coerce.boolean({ message: 'isAdmin must be boolean' })
 });
 export const insertAccountSchema = selectAccountSchema.omit({
 	id: true,
