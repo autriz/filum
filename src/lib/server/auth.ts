@@ -44,13 +44,13 @@ export async function validateSessionToken(token: string) {
 		.where(eq(table.session.id, sessionId)); // Проверяем sessionId с id
 
 	if (!session) {
-		return { session: null, user: null };
+		return { session: null, profile: null };
 	}
 
 	const sessionExpired = Date.now() >= session.expiresAt.getTime();
 	if (sessionExpired) {
 		await db.delete(table.session).where(eq(table.session.id, session.id));
-		return { session: null, user: null };
+		return { session: null, profile: null };
 	}
 
 	const renewSession = Date.now() >= session.expiresAt.getTime() - DAY_IN_MS * 15;
@@ -83,7 +83,7 @@ export async function validateSessionToken(token: string) {
 			.from(table.users)
 			.where(eq(table.users.accountId, account.id));
 
-		if (!user) return { session: null, user: null };
+		if (!user) return { session: null, profile: null };
 
 		return {
 			session,
@@ -102,7 +102,7 @@ export async function validateSessionToken(token: string) {
 			.from(table.businesses)
 			.where(eq(table.businesses.accountId, account.id));
 
-		if (!business) return { session: null, user: null };
+		if (!business) return { session: null, profile: null };
 
 		return {
 			session,
@@ -114,28 +114,6 @@ export async function validateSessionToken(token: string) {
 	} else {
 		throw new Error('invalid account type');
 	}
-
-	// Проверяем таблицу users
-	let [user] = await db
-		.select({
-			id: table.users.id,
-			name: table.users.name
-		})
-		.from(table.users)
-		.where(eq(table.users.id, session.accountId));
-
-	// Если user не найден, проверяем таблицу business
-	if (!user) {
-		[user] = await db
-			.select({
-				id: table.businesses.id,
-				name: table.businesses.name // или другое поле, представляющее имя
-			})
-			.from(table.businesses)
-			.where(eq(table.businesses.id, session.accountId));
-	}
-
-	return user ? { session, user } : { session: null, user: null };
 }
 
 export async function authorize(event: RequestEvent) {
@@ -145,14 +123,14 @@ export async function authorize(event: RequestEvent) {
 		throw fail(401, { message: 'Unauthorized: No session token provided' });
 	}
 
-	const { session, user } = await validateSessionToken(token);
+	const { session, profile } = await validateSessionToken(token);
 
-	if (!session || !user) {
+	if (!session || !profile) {
 		throw fail(401, { message: 'Unauthorized: Invalid or expired session' });
 	}
 
 	// Добавляем данные пользователя в event.locals для доступа в роуте
-	event.locals.user = user;
+	event.locals.profile = profile;
 
 	return event;
 }
