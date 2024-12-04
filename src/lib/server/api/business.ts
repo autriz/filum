@@ -2,14 +2,14 @@ import { eq } from 'drizzle-orm';
 import { db } from '../db';
 import { randomUUID } from 'crypto';
 import { businesses, type Business, type BusinessInsert } from '../db/schema';
-import { service } from '../db/schema';
+import { services } from '../db/schema';
 
 export async function getBusinesses() {
-	return await db.select().from(business).limit(15);
+	return await db.select().from(businesses).limit(15);
 }
 
 export async function getBusiness(id: string) {
-	return await db.select().from(business).where(eq(business.id, id));
+	return await db.select().from(businesses).where(eq(businesses.id, id));
 }
 
 export async function createBusiness(newBusiness: BusinessInsert) {
@@ -17,7 +17,7 @@ export async function createBusiness(newBusiness: BusinessInsert) {
 		...newBusiness,
 		id: randomUUID()
 	};
-	await db.insert(business).values(newBusinessData);
+	await db.insert(businesses).values(newBusinessData);
 	return newBusinessData;
 }
 
@@ -26,18 +26,18 @@ export async function updateBusiness(
 	updatedFields: Partial<Omit<Business, 'type' | 'id'>>
 ) {
 	let updatedBusiness = await db
-		.update(business)
+		.update(businesses)
 		.set(updatedFields)
 		.returning()
-		.where(eq(business.id, id));
+		.where(eq(businesses.id, id));
 
 	return updatedBusiness.at(0);
 }
 
 export async function deleteBusiness(id: string) {
-	return await db.delete(business).where(eq(business.id, id));
+	return await db.delete(businesses).where(eq(businesses.id, id));
 }
 
 export async function getBusinessServices(businessId: string) {
-	return await db.select().from(service).where(eq(service.businessId, businessId));
+	return await db.select().from(services).where(eq(services.businessId, businessId));
 }
