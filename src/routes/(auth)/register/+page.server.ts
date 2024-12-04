@@ -39,7 +39,7 @@ export const actions: Actions = {
 		const email = formData.get('email');
 		const password = formData.get('password');
 		const type = formData.get('type');
-		console.log(type)
+
 
 		if (!validateEmail(email)) {
 			return fail(400, { message: 'Invalid email' });
@@ -69,7 +69,7 @@ export const actions: Actions = {
 		} catch (e) {
 			return fail(500, { message: 'An error has occurred' });
 		}
-		throw redirect(302, '/profile/onboarding');
+		throw redirect(302, '/profile');
 	}
 };
 
@@ -90,6 +90,6 @@ function validatePassword(password: unknown): password is string {
 	return typeof password === 'string' && password.length >= 6 && password.length <= 255;
 }
 
-function validateType(type: unknown): type is 'company' | 'freelancer' {
-	return typeof type === 'string' && (type === 'company' || type === 'freelancer');
+function validateType(type: unknown): type is 'user' | 'business' {
+	return typeof type === 'string' && (type === 'user' || type === 'business');
 }
