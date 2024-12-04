@@ -4,7 +4,9 @@
 	import { fade, fly } from 'svelte/transition';
 	import type { ActionData } from './$types';
 	import Card from '$lib/components/Card.svelte';
+	import Input from '$lib/components/Input.svelte';
 	import RadioGroup from '$lib/components/RadioGroup.svelte';
+	import Button from '$lib/components/Button.svelte';
 
 	let { form }: { form: ActionData } = $props();
 	let email = '';
@@ -52,9 +54,9 @@
 						name="email"
 						minlength="6"
 						maxlength="60"
-						class="peer w-full rounded-lg border px-4 py-2 placeholder-transparent transition-colors bg-surface-50-950
-                            border-surface-200-800 focus:border-primary-500 focus:outline-none focus:ring
-                            focus:ring-primary-300 dark:text-surface-950-50 dark:focus:border-primary-400 dark:focus:ring-primary-500"
+						class="peer w-full rounded-lg border px-4 py-2 placeholder-transparent bg-surface-50-950 border-surface-200-800
+                            focus:border-primary-500 focus:outline-none focus:ring focus:ring-primary-300
+                            motion-safe:transition-colors dark:text-surface-950-50 dark:focus:border-primary-400 dark:focus:ring-primary-500"
 						autocomplete="email"
 						placeholder="Почта"
 					/>
@@ -80,11 +82,12 @@
 						name="username"
 						minlength="4"
 						maxlength="60"
-						class="peer w-full rounded-lg border px-4 py-2 placeholder-transparent transition-colors bg-surface-50-950
-                            border-surface-200-800 focus:border-primary-500 focus:outline-none focus:ring
-                            focus:ring-primary-300 dark:text-surface-950-50 dark:focus:border-primary-400 dark:focus:ring-primary-500"
+						class="peer w-full rounded-lg border px-4 py-2 placeholder-transparent bg-surface-50-950 border-surface-200-800
+                            focus:border-primary-500 focus:outline-none focus:ring focus:ring-primary-300
+                            motion-safe:transition-colors dark:text-surface-950-50 dark:focus:border-primary-400 dark:focus:ring-primary-500"
 						autocomplete="username"
 						placeholder="Никнейм"
+						required
 					/>
 					<label
 						for="username"
@@ -104,9 +107,9 @@
 						name="password"
 						minlength="6"
 						maxlength="255"
-						class="peer w-full rounded-lg border px-4 py-2 placeholder-transparent transition-colors bg-surface-50-950
-                            border-surface-200-800 focus:border-primary-500 focus:outline-none focus:ring
-                            focus:ring-primary-300 dark:text-surface-950-50 dark:focus:border-primary-400 dark:focus:ring-primary-500"
+						class="peer w-full rounded-lg border px-4 py-2 placeholder-transparent bg-surface-50-950 border-surface-200-800
+                            focus:border-primary-500 focus:outline-none focus:ring focus:ring-primary-300
+                            motion-safe:transition-colors dark:text-surface-950-50 dark:focus:border-primary-400 dark:focus:ring-primary-500"
 						autocomplete="new-password"
 						placeholder="Пароль"
 					/>
@@ -127,9 +130,9 @@
 						type="password"
 						minlength="6"
 						maxlength="255"
-						class="peer w-full rounded-lg border px-4 py-2 placeholder-transparent transition-colors bg-surface-50-950
-                            border-surface-200-800 focus:border-primary-500 focus:outline-none focus:ring
-                            focus:ring-primary-300 dark:text-surface-950-50 dark:focus:border-primary-400 dark:focus:ring-primary-500"
+						class="peer w-full rounded-lg border px-4 py-2 placeholder-transparent bg-surface-50-950 border-surface-200-800
+                            focus:border-primary-500 focus:outline-none focus:ring focus:ring-primary-300
+                            motion-safe:transition-colors dark:text-surface-950-50 dark:focus:border-primary-400 dark:focus:ring-primary-500"
 						autocomplete="new-password"
 						placeholder="Повторить пароль"
 					/>
@@ -143,14 +146,7 @@
 						Повторить пароль
 					</label>
 				</div>
-				<button
-					class="focus-visible:ring-ring mt-10 inline-flex h-10 items-center justify-center gap-2
-                        whitespace-nowrap rounded-md border bg-background px-8 py-2 text-sm font-medium ring-offset-background
-                        transition-colors border-surface-200-800 hover:bg-surface-100-900 hover:text-surface-900-100 hover:border-surface-300-700
-                        focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50"
-					disabled={!allowed}
-					type="submit">Зарегистрироваться</button
-				>
+				<Button class="mt-10" disabled={!allowed} type="submit">Зарегистрироваться</Button>
 			</form>
 			<span transition:fade={{ duration: 300 }} class="mt-2 flex flex-col text-center">
 				<p>Есть аккаунт?</p>
