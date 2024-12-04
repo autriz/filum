@@ -69,7 +69,8 @@
 					</label>
 				</div>
 				<section class="w-ful mt-10">
-					<RadioGroup {options} defaultValue={'user'} orientation="horizontal" />
+					<RadioGroup {options} name="type" defaultValue={'user'} orientation="horizontal" />
+
 				</section>
 				<div class="relative mt-10 w-full">
 					<input

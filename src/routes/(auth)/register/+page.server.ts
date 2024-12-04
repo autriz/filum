@@ -39,6 +39,7 @@ export const actions: Actions = {
 		const email = formData.get('email');
 		const password = formData.get('password');
 		const type = formData.get('type');
+		console.log(type)
 
 		if (!validateEmail(email)) {
 			return fail(400, { message: 'Invalid email' });
@@ -60,7 +61,7 @@ export const actions: Actions = {
 		});
 
 		try {
-			await db.insert(table.account).values({ id: userId, email, passwordHash, type });
+			await db.insert(table.accounts).values({ id: userId, email, passwordHash, type });
 
 			const sessionToken = auth.generateSessionToken();
 			const session = await auth.createSession(sessionToken, userId);
