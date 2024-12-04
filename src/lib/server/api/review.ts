@@ -42,7 +42,7 @@ export async function updateReviewForService(
 		throw Error('User does not own this comment');
 	}
 
-	return await db.update(reviews).set(reviewToUpdate).where(eq(reviews.id, reviewId));
+	return await db.update(reviews).set(reviewToUpdate).where(eq(reviews.id, reviewId)).returning();
 }
 
 export async function deleteReviewForService(reviewId: string, userId: string) {

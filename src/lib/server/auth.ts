@@ -21,7 +21,7 @@ export async function createSession(token: string, accountId: string) {
 	if (!accountId) {
 		throw new Error('accountId is required to create a session');
 	}
-		const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
+	const sessionId = encodeHexLowerCase(sha256(new TextEncoder().encode(token)));
 	const session: table.Session = {
 		id: sessionId,
 		accountId,
@@ -62,6 +62,59 @@ export async function validateSessionToken(token: string) {
 			.where(eq(table.session.id, session.id));
 	}
 
+	const [account] = await db
+		.select({
+			id: table.accounts.id,
+			email: table.accounts.email,
+			isAdmin: table.accounts.isAdmin,
+			type: table.accounts.type
+		})
+		.from(table.accounts)
+		.where(eq(table.accounts.id, session.accountId));
+
+	if (account.type === 'user') {
+		const [user] = await db
+			.select({
+				id: table.users.id,
+				name: table.users.name,
+				surname: table.users.surname,
+				avatarUrl: table.users.avatarUrl
+			})
+			.from(table.users)
+			.where(eq(table.users.accountId, account.id));
+
+		if (!user) return { session: null, user: null };
+
+		return {
+			session,
+			profile: {
+				...account,
+				...user
+			}
+		};
+	} else if (account.type === 'business') {
+		const [business] = await db
+			.select({
+				id: table.businesses.id,
+				name: table.businesses.name,
+				avatarUrl: table.businesses.avatarUrl
+			})
+			.from(table.businesses)
+			.where(eq(table.businesses.accountId, account.id));
+
+		if (!business) return { session: null, user: null };
+
+		return {
+			session,
+			profile: {
+				...account,
+				...business
+			}
+		};
+	} else {
+		throw new Error('invalid account type');
+	}
+
 	// Проверяем таблицу users
 	let [user] = await db
 		.select({
@@ -85,7 +138,7 @@ export async function validateSessionToken(token: string) {
 	return user ? { session, user } : { session: null, user: null };
 }
 
-export async function authorize(event:RequestEvent) {
+export async function authorize(event: RequestEvent) {
 	const token = event.cookies.get(sessionCookieName); // Получаем токен из cookies
 
 	if (!token) {
@@ -103,7 +156,6 @@ export async function authorize(event:RequestEvent) {
 
 	return event;
 }
-
 
 export type SessionValidationResult = Awaited<ReturnType<typeof validateSessionToken>>;
 
