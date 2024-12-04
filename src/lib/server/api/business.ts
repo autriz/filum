@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm';
 import { db } from '../db';
 import { randomUUID } from 'crypto';
-import { business, type Business, type BusinessInsert } from '../db/schema';
+import { businesses, type Business, type BusinessInsert } from '../db/schema';
 import { service } from '../db/schema';
 
 export async function getBusinesses() {

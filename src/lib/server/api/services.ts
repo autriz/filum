@@ -1,7 +1,7 @@
 import { db } from '../db';
 import { eq } from 'drizzle-orm';
 import { randomUUID } from 'crypto';
-import { insertServiceSchema, service, type Service, type ServiceInsert } from '../db/schema';
+import { insertServiceSchema, services, type Service, type ServiceInsert } from '../db/schema';
 
 export async function getServices() {
 	return await db.select().from(service);
