@@ -1,14 +1,14 @@
 import {
 	selectBusinessSchema,
 	selectReviewSchema,
-	service,
+	services,
 	type Service
 } from '$lib/server/db/schema';
 import { json } from '@sveltejs/kit';
 import type { PageServerLoad } from './$types';
 import { db } from '$lib/server/db';
 import { count, like, or, sql } from 'drizzle-orm';
-import { business } from '$lib/server/db/schema';
+import { businesses } from '$lib/server/db/schema';
 import { eq } from 'drizzle-orm';
 
 export const load: PageServerLoad = async ({ url }) => {
@@ -22,36 +22,36 @@ export const load: PageServerLoad = async ({ url }) => {
 	const { count: servicesCount } = (
 		await db
 			.select({ count: count() })
-			.from(service)
-			.leftJoin(business, eq(business.id, service.businessId))
+			.from(services)
+			.leftJoin(businesses, eq(businesses.id, services.businessId))
 			.where(
 				or(
-					like(service.title, `%${query}%`),
-					like(service.description, `%${query}%`),
-					like(business.name, `%${query}%`)
+					like(services.title, `%${query}%`),
+					like(services.description, `%${query}%`),
+					like(businesses.name, `%${query}%`)
 				)
 			)
 	).at(0) ?? { count: 0 };
 
-	const services = await db
+	const serviceList = await db
 		.select({
-			id: service.id,
-			businessId: service.businessId,
-			title: service.title,
-			businessName: business.name,
-			price: service.price
+			id: services.id,
+			businessId: services.businessId,
+			title: services.title,
+			businessName: businesses.name,
+			price: services.price
 		})
-		.from(service)
-		.leftJoin(business, eq(business.id, service.businessId))
+		.from(services)
+		.leftJoin(businesses, eq(businesses.id, services.businessId))
 		.limit(15)
 		.offset((page - 1) * 15)
 		.where(
 			or(
-				like(service.title, `%${query}%`),
-				like(service.description, `%${query}%`),
-				like(business.name, `%${query}%`)
+				like(services.title, `%${query}%`),
+				like(services.description, `%${query}%`),
+				like(businesses.name, `%${query}%`)
 			)
 		);
 
-	return { services, servicesCount };
+	return { services: serviceList, servicesCount };
 };
