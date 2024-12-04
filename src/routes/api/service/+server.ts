@@ -4,7 +4,7 @@ import { error, json } from '@sveltejs/kit';
 import { count, eq, like, or, sql } from 'drizzle-orm';
 
 export async function GET({ url, locals }) {
-	if (!locals.user || locals.session) {
+	if (!locals.profile || locals.session) {
 		return error(403, 'Unauthorized');
 	}
 
