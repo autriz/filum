@@ -66,7 +66,7 @@ export async function validateSessionToken(token: string) {
 	let [user] = await db
 		.select({
 			id: table.users.id,
-			username: table.users.name
+			name: table.users.name
 		})
 		.from(table.users)
 		.where(eq(table.users.id, session.accountId));
@@ -76,7 +76,7 @@ export async function validateSessionToken(token: string) {
 		[user] = await db
 			.select({
 				id: table.businesses.id,
-				username: table.businesses.name // или другое поле, представляющее имя
+				name: table.businesses.name // или другое поле, представляющее имя
 			})
 			.from(table.businesses)
 			.where(eq(table.businesses.id, session.accountId));
