@@ -4,6 +4,7 @@
 	import { fade, fly } from 'svelte/transition';
 	import type { ActionData } from './$types';
 	import { onMount } from 'svelte';
+	import Input from '$lib/components/Input.svelte';
 
 	let { form }: { form: ActionData } = $props();
 	let email = '';
@@ -27,7 +28,7 @@
 {#if ready}
 	<div transition:fly={{ y: -50, duration: 300, delay: 0 }} class="w-full">
 		<Card
-			class="z-10 m-auto w-full max-w-md rounded-lg bg-white p-6 shadow-md transition-colors dark:bg-gray-800"
+			class="z-10 m-auto w-full max-w-md rounded-lg bg-surface-50 p-6 shadow-md transition-colors dark:bg-surface-900"
 		>
 			<form class="mx-10 flex flex-col items-center p-5" method="post" use:enhance>
 				<h1 class="text-2xl">Вход</h1>
@@ -95,3 +96,14 @@
 		</Card>
 	</div>
 {/if}
+
+<style>
+	input:-webkit-autofill,
+	input:-webkit-autofill:hover,
+	input:-webkit-autofill:focus,
+	input:-webkit-autofill:active {
+		-webkit-background-clip: text;
+		transition: background-color 5000s ease-in-out 0s;
+		box-shadow: inset 0 0 20px 20px #00000000;
+	}
+</style>
