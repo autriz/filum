@@ -86,7 +86,7 @@ export async function validateSessionToken(token: string) {
 }
 
 export async function authorize(event:RequestEvent) {
-	const token = event.cookies.get('sessionToken'); // Получаем токен из cookies
+	const token = event.cookies.get(sessionCookieName); // Получаем токен из cookies
 
 	if (!token) {
 		throw fail(401, { message: 'Unauthorized: No session token provided' });
