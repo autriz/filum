@@ -1,13 +1,11 @@
-import { db } from "../db";
-import { eq } from "drizzle-orm";
-import { user } from "../db/schema";
+import { db } from '../db';
+import { eq } from 'drizzle-orm';
+import { users } from '../db/schema';
 
 export async function getUsers() {
-    return db.select()
-        .from(user)
+	return db.select().from(users);
 }
 
-export async function deleteUserById(userId:string) {
-    return db.delete(user)
-        .where(eq(user.id, userId));
+export async function deleteUserById(userId: string) {
+	return db.delete(users).where(eq(users.id, userId));
 }
