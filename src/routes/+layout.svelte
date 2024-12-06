@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Cookies from '$lib/components/Cookies.svelte';
 	import Header from '$lib/components/Header.svelte';
 	import '../app.css';
 	import { ModeWatcher } from 'mode-watcher';
@@ -17,6 +18,7 @@
 	<div class="mt-[3.5rem] h-[calc(100vh_-_3.5rem)]">
 		{@render children()}
 	</div>
+	<Cookies />
 </div>
 
 <ModeWatcher defaultMode={'system'} />

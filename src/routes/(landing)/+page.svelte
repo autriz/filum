@@ -6,7 +6,7 @@
 	let businesses = [];
   
 	const fetchBusinessRating = async (businessId) => {
-	  const response = await fetch(`http://localhost:5173/api/businesses/${businessId}/rating`);
+	  const response = await fetch(`/api/businesses/${businessId}/rating`);
 	  if (response.ok) {
 		const data = await response.json();
 		return data.averageRating;
@@ -17,7 +17,7 @@
 	};
   
 	const fetchBusinesses = async () => {
-	  const response = await fetch('http://localhost:5173/api/businesses');
+	  const response = await fetch('/api/businesses');
 	  if (response.ok) {
 		const businessesData = await response.json();
 		
@@ -35,7 +35,7 @@
 	onMount(() => {
 	  fetchBusinesses();
 	});
-	
+
   </script>
 
 <main class="relative isolate h-full overflow-hidden px-6 lg:px-8">
