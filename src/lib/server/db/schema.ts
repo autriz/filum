@@ -304,3 +304,16 @@ export type Account = z.infer<typeof selectAccountSchema>;
 export type AccountInsert = z.infer<typeof insertAccountSchema>;
 
 export type Session = typeof session.$inferSelect;
+
+export const tables = {
+	session: session,
+	accounts: accounts,
+	users: users,
+	businesses: businesses,
+	businessContact: businessContact,
+	tag: tag,
+	// businessTag: businessTag,
+	services: services,
+	// serviceTag: serviceTag,
+	reviews: reviews
+};

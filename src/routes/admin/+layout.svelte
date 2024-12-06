@@ -4,9 +4,8 @@
 
 <div class="flex h-full w-full flex-col md:flex-row">
 	<aside
-		class="flex h-full w-full flex-col gap-2 border-r px-4 border-surface-200-800 md:w-[160px]"
+		class="mt-4 flex h-full w-full flex-col gap-2 border-r px-4 border-surface-200-800 md:w-[180px]"
 	>
-		<h1 class="text-semibold text-2xl">Таблицы</h1>
 		{#each data.tables as table}
 			<a
 				class="rounded-md border px-4 py-2 text-center border-surface-200-800 hover:bg-surface-100-900 hover:border-surface-300-700 motion-safe:transition-colors"

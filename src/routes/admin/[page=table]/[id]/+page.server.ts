@@ -1,10 +1,10 @@
 import type { PageServerLoad } from './$types';
-import * as tables from '$lib/server/db/schema';
+import { tables } from '$lib/server/db/schema';
 import { db } from '$lib/server/db';
 import { eq } from 'drizzle-orm';
 
 export const load: PageServerLoad = async ({ params }) => {
-	const tableName = params['page'] as 'accounts' | 'businesses' | 'users' | 'services';
+	const tableName = params['page'] as keyof typeof tables;
 	const id = params['id'];
 
 	const table = tables[tableName];

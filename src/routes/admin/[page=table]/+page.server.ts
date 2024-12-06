@@ -1,10 +1,10 @@
 import type { PageServerLoad } from './$types';
-import * as tables from '$lib/server/db/schema';
+import { tables } from '$lib/server/db/schema';
 import { db } from '$lib/server/db';
 import { count } from 'drizzle-orm';
 
 export const load: PageServerLoad = async ({ url, params }) => {
-	const tableName = params['page'] as 'accounts' | 'businesses' | 'users' | 'services';
+	const tableName = params['page'] as keyof typeof tables;
 	const page = Number(url.searchParams.get('page')) || 1;
 	const limit = Number(url.searchParams.get('limit')) || 15;
 

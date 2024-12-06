@@ -28,7 +28,7 @@
 </script>
 
 <main class="relative flex flex-col">
-	<div class="h-full grow overflow-auto md:w-[calc(100vw-160px)]">
+	<div class="h-full grow overflow-auto md:w-fit">
 		<table class="relative table-fixed text-left text-sm text-surface-900-100 md:w-full">
 			<thead class="sticky top-0 uppercase bg-surface-200-800 text-surface-700-300">
 				<tr>
