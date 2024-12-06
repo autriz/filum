@@ -1,7 +1,7 @@
-import { eq } from 'drizzle-orm';
+import { eq, sql } from 'drizzle-orm';
 import { db } from '../db';
 import { randomUUID } from 'crypto';
-import { businesses, type Business, type BusinessInsert } from '../db/schema';
+import { businesses, reviews, type Business, type BusinessInsert } from '../db/schema';
 import { services } from '../db/schema';
 
 export async function getBusinesses() {
@@ -41,3 +41,18 @@ export async function deleteBusiness(id: string) {
 export async function getBusinessServices(businessId: string) {
 	return await db.select().from(services).where(eq(services.businessId, businessId));
 }
+export async function getAverageRating(businessId: string) {
+	const result = await db
+	  .select({ rating: reviews.rating })
+	  .from(reviews)
+	  .innerJoin(services, eq(services.id, reviews.serviceId))
+	  .where(eq(services.businessId, businessId));
+  
+	if (result.length > 0) {
+	  const totalRating = result.reduce((sum, row) => sum + row.rating, 0);
+	  const averageRating = totalRating / result.length;
+	  return averageRating;
+	}
+  
+	return null;
+  }

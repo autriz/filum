@@ -2,23 +2,41 @@
 	import BusinessCard from '$lib/components/BusinessCard.svelte';
 	import Search from '$lib/components/Search.svelte';
 	import { onMount } from 'svelte';
-
-  let businesses = [];
   
-  const fetchBusinesses = async () => {
-    const response = await fetch('http://localhost:5173/api/businesses');
-    if (response.ok) {
-      businesses = await response.json();
-    } else {
-      console.error('Ошибка при загрузке данных');
-    }
-  };
-
-  onMount(() => {
-    fetchBusinesses();
-  });
-
-</script>
+	let businesses = [];
+  
+	const fetchBusinessRating = async (businessId) => {
+	  const response = await fetch(`http://localhost:5173/api/businesses/${businessId}/rating`);
+	  if (response.ok) {
+		const data = await response.json();
+		return data.averageRating;
+	  } else {
+		console.error('Ошибка при получении рейтинга');
+		return null;
+	  }
+	};
+  
+	const fetchBusinesses = async () => {
+	  const response = await fetch('http://localhost:5173/api/businesses');
+	  if (response.ok) {
+		const businessesData = await response.json();
+		
+		for (let business of businessesData) {
+		  const rating = await fetchBusinessRating(business.id);
+		  business.averageRating = rating;
+		}
+  
+		businesses = businessesData;
+	  } else {
+		console.error('Ошибка при загрузке данных');
+	  }
+	};
+  
+	onMount(() => {
+	  fetchBusinesses();
+	});
+	
+  </script>
 
 <main class="relative isolate h-full overflow-hidden px-6 lg:px-8">
 	<div
