@@ -43,16 +43,16 @@ export async function getBusinessServices(businessId: string) {
 }
 export async function getAverageRating(businessId: string) {
 	const result = await db
-	  .select({ rating: reviews.rating })
-	  .from(reviews)
-	  .innerJoin(services, eq(services.id, reviews.serviceId))
-	  .where(eq(services.businessId, businessId));
-  
+		.select({ rating: reviews.rating })
+		.from(reviews)
+		.innerJoin(services, eq(services.id, reviews.serviceId))
+		.where(eq(services.businessId, businessId));
+
 	if (result.length > 0) {
-	  const totalRating = result.reduce((sum, row) => sum + row.rating, 0);
-	  const averageRating = totalRating / result.length;
-	  return averageRating;
+		const totalRating = result.reduce((sum, row) => sum + row.rating, 0);
+		const averageRating = totalRating / result.length;
+		return averageRating;
 	}
-  
+
 	return null;
-  }
+}

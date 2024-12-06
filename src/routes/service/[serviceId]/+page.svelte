@@ -108,7 +108,7 @@
 			<h2 class="text-2xl font-semibold text-surface-300">{formatter.format(data.price)}</h2>
 		</section>
 		<section
-			class="rounded-md border border-surface-200 bg-surface-900 p-6 shadow-md dark:border-surface-700"
+			class="rounded-md border border-surface-200 p-6 shadow-md dark:border-surface-700 dark:bg-surface-900"
 		>
 			<div class="flex flex-row gap-3">
 				<a href="/business/{business.id}">

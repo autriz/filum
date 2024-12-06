@@ -90,7 +90,7 @@
 		<div class="mt-3 space-y-8">
 			<section class="flex items-center space-x-6">
 				<Avatar
-					class="h-16 w-16 rounded-full bg-surface-400 text-3xl"
+					class="h-24 w-24 rounded-full bg-surface-400 text-3xl text-surface-50"
 					src={business.logo}
 					alt={business.name}
 				/>

@@ -9,7 +9,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { z } from 'zod';
 
 export const load: PageServerLoad = async (event) => {
-	if (event.locals.user) {
+	if (event.locals.profile) {
 		throw redirect(302, '/');
 	}
 	return {};
@@ -39,7 +39,6 @@ export const actions: Actions = {
 		const email = formData.get('email');
 		const password = formData.get('password');
 		const type = formData.get('type');
-
 
 		if (!validateEmail(email)) {
 			return fail(400, { message: 'Invalid email' });

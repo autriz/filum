@@ -305,6 +305,10 @@ export type AccountInsert = z.infer<typeof insertAccountSchema>;
 
 export type Session = typeof session.$inferSelect;
 
+export type BusinessWithRating = Business & {
+	averageRating: number;
+};
+
 export const tables = {
 	session: session,
 	accounts: accounts,

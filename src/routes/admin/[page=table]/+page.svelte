@@ -16,6 +16,9 @@
 		siblingCount: 1,
 		onPageChange: ({ curr, next }) => {
 			$page.url.searchParams.set('page', next.toString());
+			if (data.limit != 15) {
+				$page.url.searchParams.set('limit', data.limit.toString());
+			}
 			goto($page.url, { invalidateAll: true });
 
 			return next;
