@@ -1,5 +1,23 @@
 <script>
+	import BusinessCard from '$lib/components/BusinessCard.svelte';
 	import Search from '$lib/components/Search.svelte';
+	import { onMount } from 'svelte';
+
+  let businesses = [];
+  
+  const fetchBusinesses = async () => {
+    const response = await fetch('http://localhost:5173/api/businesses');
+    if (response.ok) {
+      businesses = await response.json();
+    } else {
+      console.error('Ошибка при загрузке данных');
+    }
+  };
+
+  onMount(() => {
+    fetchBusinesses();
+  });
+
 </script>
 
 <main class="relative isolate h-full overflow-hidden px-6 lg:px-8">
@@ -64,6 +82,13 @@
 					<span>Поиск</span>
 				</button>
 			</form>
+			<div class="businesses_container">
+				{#each businesses as business}
+				  <div class="business_card">
+					<BusinessCard {business} />
+				  </div>
+				{/each}
+			  </div>
 		</div>
 	</div>
 	<div
@@ -96,5 +121,32 @@
 	.mask {
 		-webkit-mask-image: radial-gradient(50% 50% at center, white, transparent);
 		mask-image: radial-gradient(50% 50% at center, white, transparent);
+	}
+
+	.businesses_container {
+		margin-top: 5%;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 16px;
+		justify-content: center; 
+ 	}
+
+	.business_card {
+		width: 100%;
+		max-width: 300px;
+		flex: 1 1 280px;
+		cursor: pointer;
+	}
+
+	@media (min-width: 640px) {
+		.business_card {
+			flex: 1 1 45%;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.business_card {
+			flex: 1 1 30%;
+		}
 	}
 </style>
