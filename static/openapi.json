@@ -5,15 +5,14 @@
     "version": "1.0.0"
   },
   "paths": {
-    "\\(admin-panel)\\admin\\+": {},
-    "\\(admin-panel)\\admin\\accounts\\+": {},
-    "\\(admin-panel)\\admin\\accounts\\{accountId}\\+": {},
-    "\\(admin-panel)\\admin\\login\\+": {},
-    "\\(admin-panel)\\admin\\services\\+": {},
     "\\(auth)\\login\\+": {},
-    "\\(auth)\\register\\choose\\business\\+": {},
-    "\\(auth)\\register\\choose\\user\\+": {},
-    "\\api\\business\\": {
+    "\\(auth)\\register\\+": {},
+    "\\(landing)\\+": {},
+    "\\admin\\{page=table}\\+": {},
+    "\\admin\\{page=table}\\create\\+": {},
+    "\\admin\\{page=table}\\{id}\\+": {},
+    "\\admin\\{page=table}\\{id}\\edit\\+": {},
+    "\\api\\businesses\\": {
       "get": {
         "summary": "Handler for GET request",
         "responses": {
@@ -53,7 +52,7 @@
         }
       }
     },
-    "\\api\\business\\{businessId}\\": {
+    "\\api\\businesses\\{businessId}\\": {
       "get": {
         "summary": "Handler for GET request",
         "responses": {
@@ -97,7 +96,23 @@
         }
       }
     },
-    "\\api\\business\\{businessId}\\services\\": {
+    "\\api\\businesses\\{businessId}\\rating\\": {
+      "get": {
+        "summary": "Handler for GET request",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "\\api\\businesses\\{businessId}\\services\\": {
       "get": {
         "summary": "Handler for GET request",
         "responses": {
@@ -124,6 +139,116 @@
             }
           }
         },
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "\\api\\reviews\\": {
+      "post": {
+        "summary": "Handler for POST request",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "get": {
+        "summary": "Handler for GET request",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "\\api\\reviews\\service\\{serviceId}\\": {
+      "get": {
+        "summary": "Handler for GET request",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "post": {
+        "summary": "Handler for POST request",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {}
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "\\api\\reviews\\{reviewId}\\": {
+      "put": {
+        "summary": "Handler for PUT request",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Handler for DELETE request",
         "responses": {
           "200": {
             "description": "Successful response"
@@ -201,10 +326,42 @@
         }
       }
     },
+    "\\api\\users\\": {
+      "get": {
+        "summary": "Handler for GET request",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
+    "\\api\\users\\{userId}\\": {
+      "delete": {
+        "summary": "Handler for DELETE request",
+        "responses": {
+          "200": {
+            "description": "Successful response"
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Server error"
+          }
+        }
+      }
+    },
     "\\business\\{businessId}\\+": {},
     "\\lucia\\+": {},
     "\\lucia\\login\\+": {},
-    "\\profile\\{profileId}\\+": {},
+    "\\profile\\+": {},
     "\\search\\+": {},
     "\\service\\{serviceId}\\+": {},
     "\\service\\{serviceId}\\review\\{reviewId}\\+": {}
