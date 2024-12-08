@@ -9,7 +9,7 @@ import type { Actions, PageServerLoad } from './$types';
 import { z } from 'zod';
 
 export const load: PageServerLoad = async (event) => {
-	if (event.locals.profile) {
+	if (event.locals.profile || event.locals.session) {
 		throw redirect(302, '/');
 	}
 	return {};
@@ -40,39 +40,101 @@ export const actions: Actions = {
 		const password = formData.get('password');
 		const type = formData.get('type');
 
-		if (!validateEmail(email)) {
-			return fail(400, { message: 'Invalid email' });
-		}
-		if (!validatePassword(password)) {
-			return fail(400, { message: 'Invalid password' });
-		}
-		if (!validateType(type)) {
-			return fail(400, { message: 'Invalid business type' });
-		}
+		if (type === "user") {
+			const name = formData.get('name');
+			const surname = formData.get('surname');
 
-		const userId = generateUserId();
-		const passwordHash = await hash(password, {
-			// recommended minimum parameters
-			memoryCost: 19456,
-			timeCost: 2,
-			outputLen: 32,
-			parallelism: 1
-		});
+			let userData = registerUserSchema.parse({
+				email,
+				password,
+				name,
+				surname,
+				type
+			});
 
-		try {
-			await db.insert(table.accounts).values({ id: userId, email, passwordHash, type });
+			const accountId = generateUUID()
+			const userId = generateUUID();
+			const passwordHash = await hash(userData.password, {
+				// recommended minimum parameters
+				memoryCost: 19456,
+				timeCost: 2,
+				outputLen: 32,
+				parallelism: 1
+			});
 
-			const sessionToken = auth.generateSessionToken();
-			const session = await auth.createSession(sessionToken, userId);
-			auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
-		} catch (e) {
-			return fail(500, { message: 'An error has occurred' });
+			try {
+				await db.insert(table.accounts).values({ 
+					id: accountId, 
+					email: userData.email, 
+					passwordHash, 
+					type, 
+					isAdmin: false 
+				});
+				await db.insert(table.users).values({
+					id: userId,
+					accountId: accountId,
+					name: userData.name,
+					surname: userData.surname
+				});
+	
+				const sessionToken = auth.generateSessionToken();
+				const session = await auth.createSession(sessionToken, userId);
+				auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
+			} catch (e) {
+				return fail(500, { message: 'An error has occurred' });
+			}
+			throw redirect(302, '/profile');
+		} else if (type === "business") {
+			const name = formData.get('name');
+
+			let businessData = registerBusinessSchema.parse({
+				email,
+				password,
+				name,
+				type,
+				businessType: 'company'
+			});
+
+			const accountId = generateUUID()
+			const businessId = generateUUID();
+			const passwordHash = await hash(businessData.password, {
+				// recommended minimum parameters
+				memoryCost: 19456,
+				timeCost: 2,
+				outputLen: 32,
+				parallelism: 1
+			});
+
+			try {
+				await db.insert(table.accounts).values({ 
+					id: accountId, 
+					email: businessData.email, 
+					passwordHash, 
+					type, 
+					isAdmin: false 
+				});
+				await db.insert(table.businesses).values({
+					id: businessId,
+					accountId: accountId,
+					name: businessData.name,
+					about: '',
+					type: 'company'
+				})
+
+				const sessionToken = auth.generateSessionToken();
+				const session = await auth.createSession(sessionToken, accountId);
+				auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
+			} catch (e) {
+				return fail(500, { message: 'An error has occurred' });
+			}
+			throw redirect(302, '/profile');
+		} else {
+			return fail(405, { message: "Неверный тип аккаунта" });
 		}
-		throw redirect(302, '/profile');
 	}
 };
 
-function generateUserId() {
+function generateUUID() {
 	return crypto.randomUUID();
 }
 

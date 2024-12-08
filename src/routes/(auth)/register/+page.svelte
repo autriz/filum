@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { writable } from "svelte/store";
 	import { onMount } from 'svelte';
 	import { fade, fly } from 'svelte/transition';
 	import type { ActionData } from './$types';
@@ -23,7 +24,8 @@
 	let passwordValue = $state('');
 	let confirmPasswordValue = $state('');
 	let businessType = $state<'freelancer' | 'company'>('freelancer');
-	let usernameValue = $state('');
+	let nameValue = $state('');
+	let surnameValue = $state('');
 
 	let allowed = $derived(passwordValue === confirmPasswordValue && !!emailValue && !!passwordValue);
 
@@ -35,6 +37,8 @@
 		{ label: 'Фрилансер', value: 'freelancer' },
 		{ label: 'Компания', value: 'company' }
 	];
+
+	let currentAccountType = writable('user');
 
 	onMount(() => (ready = true));
 </script>
@@ -71,34 +75,86 @@
 					</label>
 				</div>
 				<section class="w-ful mt-10">
-					<RadioGroup {options} name="type" defaultValue={'user'} orientation="horizontal" />
-
+					<RadioGroup {options} name="type" value={currentAccountType} orientation="horizontal" />
 				</section>
+				{#if $currentAccountType === "user"}
 				<div class="relative mt-10 w-full">
 					<input
-						bind:value={usernameValue}
-						id="username"
+						bind:value={nameValue}
+						id="name"
 						type="text"
-						name="username"
+						name="name"
 						minlength="4"
 						maxlength="60"
 						class="peer w-full rounded-lg border px-4 py-2 placeholder-transparent bg-surface-50-950 border-surface-200-800
-                            focus:border-primary-500 focus:outline-none focus:ring focus:ring-primary-300
-                            motion-safe:transition-colors dark:text-surface-950-50 dark:focus:border-primary-400 dark:focus:ring-primary-500"
-						autocomplete="username"
-						placeholder="Никнейм"
+							focus:border-primary-500 focus:outline-none focus:ring focus:ring-primary-300
+							motion-safe:transition-colors dark:text-surface-950-50 dark:focus:border-primary-400 dark:focus:ring-primary-500"
+						autocomplete="name"
+						placeholder="Имя"
 						required
 					/>
 					<label
-						for="username"
+						for="name"
 						class="absolute -top-5
-                            left-[17px] select-none text-sm text-surface-950-50 peer-placeholder-shown:top-[9.5px]
-                            peer-placeholder-shown:text-base peer-placeholder-shown:text-surface-400 peer-focus:-top-5
-                            peer-focus:text-sm peer-focus:text-primary-400 motion-safe:transition-all"
+							left-[17px] select-none text-sm text-surface-950-50 peer-placeholder-shown:top-[9.5px]
+							peer-placeholder-shown:text-base peer-placeholder-shown:text-surface-400 peer-focus:-top-5
+							peer-focus:text-sm peer-focus:text-primary-400 motion-safe:transition-all"
 					>
-						Никнейм
+						Имя
 					</label>
 				</div>
+				<div class="relative mt-10 w-full">
+					<input
+						bind:value={surnameValue}
+						id="surname"
+						type="text"
+						name="surname"
+						minlength="4"
+						maxlength="60"
+						class="peer w-full rounded-lg border px-4 py-2 placeholder-transparent bg-surface-50-950 border-surface-200-800
+							focus:border-primary-500 focus:outline-none focus:ring focus:ring-primary-300
+							motion-safe:transition-colors dark:text-surface-950-50 dark:focus:border-primary-400 dark:focus:ring-primary-500"
+						autocomplete="family-name"
+						placeholder="Фамилия"
+						required
+					/>
+					<label
+						for="surname"
+						class="absolute -top-5
+							left-[17px] select-none text-sm text-surface-950-50 peer-placeholder-shown:top-[9.5px]
+							peer-placeholder-shown:text-base peer-placeholder-shown:text-surface-400 peer-focus:-top-5
+							peer-focus:text-sm peer-focus:text-primary-400 motion-safe:transition-all"
+					>
+						Фамилия
+					</label>
+				</div>
+				{:else}
+					<div class="relative mt-10 w-full">
+						<input
+							bind:value={nameValue}
+							id="name"
+							type="text"
+							name="name"
+							minlength="4"
+							maxlength="60"
+							class="peer w-full rounded-lg border px-4 py-2 placeholder-transparent bg-surface-50-950 border-surface-200-800
+								focus:border-primary-500 focus:outline-none focus:ring focus:ring-primary-300
+								motion-safe:transition-colors dark:text-surface-950-50 dark:focus:border-primary-400 dark:focus:ring-primary-500"
+							autocomplete="name"
+							placeholder="Название компании"
+							required
+						/>
+						<label
+							for="name"
+							class="absolute -top-5
+								left-[17px] select-none text-sm text-surface-950-50 peer-placeholder-shown:top-[9.5px]
+								peer-placeholder-shown:text-base peer-placeholder-shown:text-surface-400 peer-focus:-top-5
+								peer-focus:text-sm peer-focus:text-primary-400 motion-safe:transition-all"
+						>
+							Название компании
+						</label>
+					</div>
+				{/if}
 				<div class="relative mt-10 w-full">
 					<input
 						bind:value={passwordValue}
