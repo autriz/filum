@@ -1,8 +1,9 @@
 <script lang="ts">
 	import Avatar from '$lib/components/Avatar.svelte';
-	import Card from '$lib/components/Card.svelte';
+	// import Card from '$lib/components/Card.svelte';
 	import type { Business, Review, Service, User } from '$lib/server/db/schema';
 	import { ArrowLeft, Star } from 'lucide-svelte';
+	import Button from '$lib/components/Button.svelte';
 
 	const { data } = $props();
 
@@ -78,6 +79,10 @@
 	</section>
 	<section class="space-y-6">
 		<h2 class="text-2xl font-semibold text-surface-950-50">Отзывы</h2>
+		<form method="post">
+			<Button class="block mb-2 mt-10" type="submit">Оставить отзыв</Button>
+			<textarea id="newComment" rows="4" class="rounded-lg border border-surface-200 p-6 hover:border-surface-400 motion-safe:transition-colors dark:border-surface-700 dark:bg-surface-900 " placeholder="Leave a comment..."></textarea>
+		</form>
 		<div class="mt-4 grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
 			{#each service.reviews as review (review.id)}
 				{@const rating = review.rating}
@@ -85,7 +90,7 @@
 					class="rounded-lg border border-surface-200 p-6 hover:border-surface-400 motion-safe:transition-colors dark:border-surface-700 dark:bg-surface-900"
 				>
 					<div class="flex w-fit items-center justify-center gap-4">
-						<a href="/profile/{review.user.id}">
+						<a href="/user/{review.user.id}">
 							<Avatar
 								class="h-10 w-10 rounded-full bg-surface-400"
 								src={review.user.avatarUrl}
