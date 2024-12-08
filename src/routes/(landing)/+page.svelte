@@ -5,7 +5,7 @@
 	let { data } = $props();
 </script>
 
-<main class="relative isolate h-full overflow-auto px-6 lg:px-8">
+<main class="relative isolate h-full overflow-clip px-6 lg:px-8">
 	<div
 		class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80 lg:-top-60"
 		aria-hidden="true"
@@ -67,8 +67,11 @@
 			</form>
 		</div>
 	</section>
-	<section class="mt-4 space-y-6">
-		<h1 class="mx-16 text-4xl">Компании, которые выбрали нас</h1>
+	<section class="mt-[-10%] space-y-6">
+		<span class="flex justify-center items-center text-4xl gap-1">
+			<h1>Компании, которые выбрали</h1>
+			<p class="text-tertiary-400-600">нас</p>
+		</span>
 		<div class="flex flex-row justify-center gap-4">
 			{#each data.businesses as business}
 				<div class="business_card">
