@@ -6,8 +6,6 @@
 
 	const { data } = $props();
 
-	console.log(data);
-
 	const formatter = new Intl.NumberFormat('ru-RU', {
 		style: 'currency',
 		currency: 'RUB',
