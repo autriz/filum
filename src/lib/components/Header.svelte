@@ -1,6 +1,9 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import Avatar from './Avatar.svelte';
 	import { slide } from 'svelte/transition';
+
+	const profile = $page.data.profile;
 
 	let inAdminRoute = $derived($page.route.id?.startsWith('/admin'));
 </script>
@@ -31,19 +34,29 @@
 			<h1 class="text-xl">Filum</h1>
 		</a>
 		<span class="grow"></span>
-		<div class="flex gap-4 px-6">
-			<a
-				href="/login"
-				class="flex items-center justify-center rounded-md border px-4 py-2 border-tertiary-400-600 hover:border-tertiary-300 motion-safe:transition-colors dark:hover:border-tertiary-500"
-			>
-				Войти
+		{#if profile}
+			<a href="/profile">
+				{#if profile.type === "user"}
+					<Avatar src={profile.avatarUrl} alt="{profile.name} {profile.surname}" />
+				{:else}
+					<Avatar src={profile.avatarUrl} alt="{profile.name}" />
+				{/if}
 			</a>
-			<a
-				href="/register"
-				class="flex items-center justify-center rounded-md border px-4 py-2 border-tertiary-400-600 hover:border-tertiary-300 hover:bg-tertiary-400-600 motion-safe:transition-colors dark:hover:border-tertiary-500"
-			>
-				Регистрация
-			</a>
-		</div>
+		{:else}
+			<div class="flex gap-4 px-6">
+				<a
+					href="/login"
+					class="flex items-center justify-center rounded-md border px-4 py-2 border-tertiary-400-600 hover:border-tertiary-300 motion-safe:transition-colors dark:hover:border-tertiary-500"
+				>
+					Войти
+				</a>
+				<a
+					href="/register"
+					class="flex items-center justify-center rounded-md border px-4 py-2 border-tertiary-400-600 hover:border-tertiary-300 hover:bg-tertiary-400-600 motion-safe:transition-colors dark:hover:border-tertiary-500"
+				>
+					Регистрация
+				</a>
+			</div>
+		{/if}
 	{/if}
 </header>

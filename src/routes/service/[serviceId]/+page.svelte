@@ -16,8 +16,6 @@
 		currency: 'RUB',
 		trailingZeroDisplay: 'stripIfInteger'
 	});
-
-	console.log(service);
 </script>
 
 <main
@@ -31,9 +29,14 @@
 		<section>
 			<h1 class="mb-4 text-3xl font-bold md:text-4xl">{service.title}</h1>
 			<h2 class="text-2xl font-semibold text-surface-300">{formatter.format(service.price)}</h2>
+			<div class="mt-4">
+				<pre class="whitespace-break-spaces break-words font-sans">
+					{service.description}
+				</pre>
+			</div>
 		</section>
 		<section
-			class="rounded-md border border-surface-200 p-6 shadow-md dark:border-surface-700 dark:bg-surface-900"
+			class="rounded-md border h-fit border-surface-200 p-6 shadow-md dark:border-surface-700 dark:bg-surface-900"
 		>
 			<div class="flex flex-row gap-3">
 				<a href="/business/{service.business.id}">
@@ -59,11 +62,6 @@
 			<p class="text-md mt-3 text-surface-300">{service.business.about}</p>
 		</section>
 	</div>
-	<section class="space-y-6">
-		<pre class="whitespace-break-spaces break-words font-sans">
-			{service.description}
-		</pre>
-	</section>
 	<section class="space-y-6">
 		<h2 class="text-2xl font-semibold text-surface-950-50">Теги</h2>
 		<div class="mt-3 flex gap-3">

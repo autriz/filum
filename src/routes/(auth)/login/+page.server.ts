@@ -7,7 +7,7 @@ import * as table from '$lib/server/db/schema';
 import type { Actions, PageServerLoad } from './$types';
 
 export const load: PageServerLoad = async (event) => {
-	if (event.locals.user) {
+	if (event.locals.profile || event.locals.session) {
 		throw redirect(302, '/');
 	}
 	return {};
@@ -26,14 +26,13 @@ export const actions: Actions = {
 			return fail(400, { message: 'Invalid password' });
 		}
 
-		const results = await db.select().from(table.accounts).where(eq(table.accounts.email, email));
-		const existingUser = results.at(0);
+		const [ account ] = await db.select().from(table.accounts).where(eq(table.accounts.email, email));
 
-		if (!existingUser) {
+		if (!account) {
 			return fail(400, { message: 'Incorrect email or password' });
 		}
 
-		const validPassword = await verify(existingUser.passwordHash, password, {
+		const validPassword = await verify(account.passwordHash, password, {
 			memoryCost: 19456,
 			timeCost: 2,
 			outputLen: 32,
@@ -45,7 +44,7 @@ export const actions: Actions = {
 		}
 
 		const sessionToken = auth.generateSessionToken();
-		const session = await auth.createSession(sessionToken, existingUser.id);
+		const session = await auth.createSession(sessionToken, account.id);
 
 		auth.setSessionTokenCookie(event, sessionToken, session.expiresAt);
 
