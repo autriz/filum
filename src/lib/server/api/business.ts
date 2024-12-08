@@ -109,8 +109,6 @@ export async function getBusinessData(businessId: string) {
 		.groupBy(services.id)
 		.limit(6);
 
-	console.log(serviceList);
-
 	const businessTags = await db
 		.select({ tag: tags.text })
 		.from(businessTag)
