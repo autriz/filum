@@ -1,6 +1,7 @@
 import { db } from '../db';
 import { asc, count, eq, getTableColumns, sql } from 'drizzle-orm';
 import { randomUUID } from 'crypto';
+import { getReviewsForService  } from './review';
 import {
 	businesses,
 	insertServiceSchema,
@@ -82,4 +83,52 @@ export async function getServiceData(serviceId: string) {
 	};
 }
 
+export async function comparisonOfServices(firstServiceId: string, secondServiceId: string) {
+	const firstService = await db.select().from(services).where(eq(services.id, firstServiceId));
+	const secondService = await db.select().from(services).where(eq(services.id, secondServiceId));
+	
+	let firstServiceCounter = 0;
+	let secondServiceCounter = 0;
 
+	if(firstService[0].createdAt > secondService[0].createdAt){
+		firstServiceCounter++;
+	} else {
+		secondServiceCounter++;
+	}
+
+	if(firstService[0].description.length > secondService[0].description.length){
+		firstServiceCounter++;
+	} else {
+		secondServiceCounter++;
+	}
+	
+	let firstServiceReviews = await getReviewsForService(firstServiceId);
+	let secondServiceReviews = await getReviewsForService(secondServiceId);
+
+	let firstServiceAverageRating = 0;
+	let secondServiceAverageRating = 0;
+
+	if (firstServiceReviews.length > 0) {
+		const totalRating = firstServiceReviews.reduce((sum, row) => sum + row.rating, 0);
+		const averageRating = totalRating / firstServiceReviews.length;
+		firstServiceAverageRating = averageRating;
+	}
+	
+	if (secondServiceReviews.length > 0) {
+		const totalRating = firstServiceReviews.reduce((sum, row) => sum + row.rating, 0);
+		const averageRating = totalRating / firstServiceReviews.length;
+		secondServiceAverageRating = averageRating;
+	}
+
+	if(firstServiceAverageRating > secondServiceAverageRating){
+		firstServiceCounter+=5;
+	} else {
+		secondServiceCounter+=5;
+	}
+
+	if(firstServiceCounter > secondServiceCounter){
+		return firstServiceId;
+	} else {
+		return secondServiceId;
+	}
+}
