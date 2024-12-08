@@ -1,19 +1,20 @@
 <script lang="ts">
 	import { createSelect, melt, type CreateSelectProps } from '@melt-ui/svelte';
 	import { Check, ChevronsUpDown } from 'lucide-svelte';
+	import type { Writable } from 'svelte/store';
 
 	type Props = CreateSelectProps & {
-		options: { label: string; value: string }[];
-		value: { label: string; value: string };
+		options: { value: string; label: string }[];
+		selected: Writable<{ value: string; label: string }>;
 	};
 
-	const { options, value = $bindable(options[0]), ...props }: Props = $props();
+	const { options, selected, ...props }: Props = $props();
 
 	const {
 		elements: { trigger, menu, option, label },
-		states: { selectedLabel, open, selected },
+		states: { selectedLabel, open },
 		helpers: { isSelected }
-	} = createSelect({ ...props, defaultSelected: value });
+	} = createSelect({ ...props, selected });
 	// forceVisible: true,
 	// positioning: {
 	//     placement: 'bottom',
@@ -37,16 +38,15 @@ py-2 shadow transition-opacity bg-surface-50-950 text-surface-700-300 hover:opac
 
 		if (!['ArrowDown', 'ArrowUp', 'Space', 'Enter'].includes(key)) return;
 
-		const allOptions = Object.values(options).flat();
-		const index = allOptions.map((v) => v.label).indexOf(`${$selectedLabel}`);
+		const index = Object.keys(options).indexOf(`${$selectedLabel}`);
 
 		if (key === 'ArrowDown') {
 			const nextIndex = index + 1;
-			const { value, label } = allOptions[nextIndex] || allOptions[0];
+			const { value, label } = options[nextIndex] || options[0];
 			selected.set({ value, label });
 		} else if (key === 'ArrowUp') {
 			const prevIndex = index - 1;
-			const { value, label } = allOptions[prevIndex] || allOptions[allOptions.length - 1];
+			const { value, label } = options[prevIndex] || options[options.length - 1];
 			selected.set({ value, label });
 		} else if (key === 'Enter') {
 			open.set(!$open);
@@ -66,7 +66,7 @@ py-2 shadow transition-opacity bg-surface-50-950 text-surface-700-300 hover:opac
 			bg-surface-100-900 focus:!ring-0"
 		use:melt={$menu}
 	>
-		{#each Object.entries(options) as [key, { value, label }]}
+		{#each Object.entries(options) as [_, { value, label }]}
 			<div
 				class="data-[highlighted]:bg-magnum-50 data-[selected]:bg-magnum-100 data-[highlighted]:text-magnum-900
 				data-[selected]:text-magnum-900 relative cursor-pointer rounded-lg

@@ -1,16 +1,16 @@
-import { json } from '@sveltejs/kit';
-import { getService } from '$lib/server/api/services';
+import { db } from '$lib/server/db/index.js';
+import { services, putServiceSchema } from '$lib/server/db/schema.js';
+import { error, json } from '@sveltejs/kit';
+import { eq } from 'drizzle-orm';
 
-export const GET = async ({ params }) => {
-	try {
-		const [service] = await getService(params['serviceId']);
+export async function GET({ params, request }) {
+	let id = params['serviceId'];
 
-		if (!service) {
-			return json({ message: 'Service not found' }, { status: 404 });
-		}
+	const [service] = await db.select().from(services).where(eq(services.id, id));
 
-		return json(service);
-	} catch (error) {
-		return json({ message: 'Server error' }, { status: 500 });
+	if (!service) {
+		return error(404, { message: 'Service not found' });
 	}
-};
+
+	return json(service);
+}

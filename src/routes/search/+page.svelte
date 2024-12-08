@@ -3,202 +3,22 @@
 	import { page } from '$app/stores';
 	import { onMount } from 'svelte';
 	import Filters, { type Filters as TFilters } from '$lib/components/filter/Filters.svelte';
-	import type { Business, Service } from '$lib/server/db/schema';
-	import { ArrowRight, Menu, Star, X } from 'lucide-svelte';
-	import Dialog from '$lib/components/Dialog.svelte';
+	import { ArrowRight, ChevronLeft, ChevronRight, Menu, Star, X } from 'lucide-svelte';
 	import { Drawer } from 'vaul-svelte';
-	import { melt } from '@melt-ui/svelte';
-	import { fade, fly } from 'svelte/transition';
+	import { fly } from 'svelte/transition';
 	import Search from '$lib/components/Search.svelte';
 	import OrderSelect from '$lib/components/OrderSelect.svelte';
 	import Card from '$lib/components/Card.svelte';
+	import { writable } from 'svelte/store';
+	import { createPagination, melt } from '@melt-ui/svelte';
 
-	let { data } = $props();
-	let { services, servicesCount } = $state(data);
-
-	let searchQuery = $state<string>('');
-	let isLoading = $state<boolean>(false);
-
-	function handleKeyPress(e: KeyboardEvent) {
-		if (e.key === 'Enter' && !isLoading) {
-			handleSearch();
-		}
-	}
-
-	type NewService = Service & { shortDescription: string; rating: number; tags?: string[] };
-
-	let business: Business = {
-		id: '1',
-		accountId: '1',
-		name: 'SecureWeb',
-		avatarUrl: '',
-		about: 'test about',
-		address: '',
-		type: 'company'
-	};
-
-	let new_services: NewService[] = [
-		{
-			id: '1',
-			businessId: '1',
-			title: 'Разработка API и интеграция',
-			description: '',
-			shortDescription:
-				'Custom API solutions to connect your web applications with external services.',
-			price: 40000,
-			rating: 4.8,
-			isActive: true,
-			createdAt: new Date(Date.now()),
-			updatedAt: new Date(Date.now())
-		},
-		{
-			id: '2',
-			businessId: '1',
-			title: 'Cloud Hosting Solutions',
-			description: '',
-			shortDescription:
-				'Reliable and scalable cloud hosting services for your web applications and databases.',
-			price: 10000,
-			rating: 4.6,
-			isActive: true,
-			createdAt: new Date(Date.now()),
-			updatedAt: new Date(Date.now())
-		},
-		{
-			id: '1',
-			businessId: '1',
-			title: 'Разработка API и интеграция',
-			description: '',
-			shortDescription:
-				'Custom API solutions to connect your web applications with external services.',
-			price: 40000,
-			rating: 4.8,
-			isActive: true,
-			createdAt: new Date(Date.now()),
-			updatedAt: new Date(Date.now())
-		},
-		{
-			id: '1',
-			businessId: '1',
-			title: 'Разработка API и интеграция',
-			description: '',
-			shortDescription:
-				'Custom API solutions to connect your web applications with external services.',
-			price: 40000,
-			rating: 4.8,
-			isActive: true,
-			createdAt: new Date(Date.now()),
-			updatedAt: new Date(Date.now())
-		},
-		{
-			id: '1',
-			businessId: '1',
-			title: 'Разработка API и интеграция',
-			description: '',
-			shortDescription:
-				'Custom API solutions to connect your web applications with external services.',
-			price: 40000,
-			rating: 4.8,
-			isActive: true,
-			createdAt: new Date(Date.now()),
-			updatedAt: new Date(Date.now())
-		},
-		{
-			id: '1',
-			businessId: '1',
-			title: 'Разработка API и интеграция',
-			description: '',
-			shortDescription:
-				'Custom API solutions to connect your web applications with external services.',
-			price: 40000,
-			rating: 4.8,
-			isActive: true,
-			createdAt: new Date(Date.now()),
-			updatedAt: new Date(Date.now())
-		},
-		{
-			id: '1',
-			businessId: '1',
-			title: 'Разработка API и интеграция',
-			description: '',
-			shortDescription:
-				'Custom API solutions to connect your web applications with external services.',
-			price: 40000,
-			rating: 4.8,
-			isActive: true,
-			createdAt: new Date(Date.now()),
-			updatedAt: new Date(Date.now())
-		},
-		{
-			id: '1',
-			businessId: '1',
-			title: 'Разработка API и интеграция',
-			description: '',
-			shortDescription:
-				'Custom API solutions to connect your web applications with external services.',
-			price: 40000,
-			rating: 4.8,
-			isActive: true,
-			createdAt: new Date(Date.now()),
-			updatedAt: new Date(Date.now())
-		},
-		{
-			id: '1',
-			businessId: '1',
-			title: 'Разработка API и интеграция',
-			description: '',
-			shortDescription:
-				'Custom API solutions to connect your web applications with external services.',
-			price: 40000,
-			rating: 4.8,
-			isActive: true,
-			createdAt: new Date(Date.now()),
-			updatedAt: new Date(Date.now())
-		},
-		{
-			id: '1',
-			businessId: '1',
-			title: 'Разработка API и интеграция',
-			description: '',
-			shortDescription:
-				'Custom API solutions to connect your web applications with external services.',
-			price: 40000,
-			rating: 4.8,
-			isActive: true,
-			createdAt: new Date(Date.now()),
-			updatedAt: new Date(Date.now())
-		},
-		{
-			id: '1',
-			businessId: '1',
-			title: 'Разработка API и интеграция',
-			description: '',
-			shortDescription:
-				'Custom API solutions to connect your web applications with external services.',
-			price: 40000,
-			rating: 4.8,
-			isActive: true,
-			createdAt: new Date(Date.now()),
-			updatedAt: new Date(Date.now())
-		}
-	];
-
-	let filters: TFilters = $state({
-		minPrice: 0,
-		maxPrice: 10000,
-
-		minRating: 0,
-		maxRating: 5,
-
-		includeTags: [],
-		excludeTags: [],
-
-		searchInServiceName: true,
-		searchInBusinessName: true,
-		searchInServiceDescription: true
+	const formatter = new Intl.NumberFormat('ru-RU', {
+		style: 'currency',
+		currency: 'RUB',
+		trailingZeroDisplay: 'stripIfInteger'
 	});
 
-	let orderList = [
+	const orderList = [
 		{
 			label: 'По соответствию',
 			value: 'relevance'
@@ -217,20 +37,124 @@
 		}
 	];
 
-	let selectedOrder = $state(orderList[0]);
+	let { data } = $props();
+	let { servicesCount, limits } = $state(data);
+
+	const query = $page.url.searchParams.get('q') ?? '';
+	const currentPage = writable(Number($page.url.searchParams.get('page')) ?? 1);
+	const minPrice = Number($page.url.searchParams.get('minPrice') ?? limits.minPrice);
+	const maxPrice = Number($page.url.searchParams.get('maxPrice') ?? limits.maxPrice);
+	const minRating = Number($page.url.searchParams.get('minRating') ?? limits.minRating);
+	const maxRating = Number($page.url.searchParams.get('maxRating') ?? limits.maxRating);
+	const includeTags = $page.url.searchParams.get('includeTags');
+	const excludeTags = $page.url.searchParams.get('excludeTags');
+	const searchIn = $page.url.searchParams.getAll('searchIn');
+	const orderBy =
+		($page.url.searchParams.get('orderBy') as
+			| 'relevance'
+			| 'publication_time'
+			| 'price_asc'
+			| 'price_desc') ?? 'relevance';
+
+	let searchQuery = $state<string>('');
+	let isLoading = $state<boolean>(false);
+
+	const {
+		elements: { root, pageTrigger, prevButton, nextButton },
+		states: { pages, range }
+	} = createPagination({
+		count: servicesCount,
+		perPage: 15,
+		page: currentPage,
+		siblingCount: 1,
+		onPageChange: ({ curr, next }) => {
+			$page.url.searchParams.set('page', next.toString());
+			goto($page.url, { invalidateAll: true });
+
+			return next;
+		}
+	});
+
+	function handleKeyPress(e: KeyboardEvent) {
+		if (e.key === 'Enter' && !isLoading) {
+			handleSearch();
+		}
+	}
+
+	let filters: TFilters = $state({
+		minPrice,
+		maxPrice,
+
+		minRating,
+		maxRating,
+
+		includeTags: [],
+		excludeTags: [],
+
+		orderBy,
+
+		searchInServiceName: writable(searchIn.length ? searchIn.includes('business_name') : true),
+		searchInBusinessName: writable(searchIn.length ? searchIn.includes('service_name') : true),
+		searchInServiceDescription: writable(
+			searchIn.length ? searchIn.includes('service_description') : true
+		)
+	});
+
+	// svelte-ignore state_referenced_locally
+	const { searchInServiceName, searchInBusinessName, searchInServiceDescription } = filters;
+
+	const selectedOrder = writable(orderList.find((value) => value.value === filters.orderBy));
+	selectedOrder.subscribe(
+		({ value }) =>
+			(filters.orderBy = value as 'relevance' | 'publication_time' | 'price_asc' | 'price_desc')
+	);
 
 	async function handleSearch() {
 		isLoading = true;
 
-		$page.url.searchParams.set('q', searchQuery);
-		goto($page.url);
+		let searchParams = new URLSearchParams();
+
+		searchParams.set('q', searchQuery);
+		filters.minPrice != limits.minPrice
+			? searchParams.set('minPrice', `${filters.minPrice}`)
+			: undefined;
+		filters.maxPrice != limits.maxPrice
+			? searchParams.set('maxPrice', `${filters.maxPrice}`)
+			: undefined;
+		filters.minRating != limits.minRating
+			? searchParams.set('minRating', `${filters.minRating}`)
+			: undefined;
+		filters.maxRating != limits.maxRating
+			? searchParams.set('maxRating', `${filters.maxRating}`)
+			: undefined;
+		if (!($searchInBusinessName && $searchInServiceDescription && $searchInServiceName)) {
+			if (!($searchInBusinessName || $searchInServiceDescription || $searchInServiceName)) {
+				$searchInBusinessName = true;
+				$searchInServiceDescription = true;
+				$searchInServiceName = true;
+			} else {
+				$searchInBusinessName ? searchParams.append('searchIn', `business_name`) : undefined;
+				$searchInServiceDescription
+					? searchParams.append('searchIn', `service_description`)
+					: undefined;
+				$searchInServiceName ? searchParams.append('searchIn', `service_name`) : undefined;
+			}
+		}
+		if (filters.orderBy != 'relevance') {
+			searchParams.set('orderBy', filters.orderBy);
+		}
+
+		goto(`/search?${searchParams.toString()}`);
 
 		try {
-			const resp = await fetch(`/api/service?q=${searchQuery}`);
+			const resp = await fetch(`/api/services?${searchParams.toString()}`);
 
 			if (!resp.ok) throw new Error('Failed to fetch services');
 
-			services = await resp.json();
+			let respData = await resp.json();
+
+			data.services = respData.services;
+			servicesCount = respData.servicesCount;
 		} catch (err) {
 			console.error(`Error fetching services: ${err}`);
 		} finally {
@@ -274,13 +198,7 @@
 					<span>Поиск</span>
 				</button>
 			</div>
-			<OrderSelect
-				bind:value={selectedOrder}
-				options={orderList}
-				onSelectedChange={(v) => {
-					return v.next;
-				}}
-			/>
+			<OrderSelect selected={selectedOrder} options={orderList} />
 		</div>
 		<div>
 			<span class="mt-4 flex max-w-md items-center text-2xl font-bold text-surface-950-50">
@@ -317,7 +235,7 @@
 							<Drawer.Description class="mb-5 mt-2 leading-normal text-surface-800-200">
 								Настройте поиск под свои нужды.
 							</Drawer.Description>
-							<Filters bind:filters />
+							<Filters bind:filters {limits} />
 						</div>
 					</Drawer.Content>
 				</Drawer.Portal>
@@ -325,62 +243,91 @@
 		</div>
 		<aside class="hidden space-y-6 md:block">
 			<h2 class="mb-2 text-lg font-semibold">Фильтры</h2>
-			<Filters bind:filters />
+			<Filters bind:filters {limits} />
 		</aside>
 		<div class="space-y-6">
-			<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-				<!-- {#each services as service}
+			{#if isLoading}
+				<div class="flex h-full w-full items-center justify-center">
+					<h1 class="text-3xl">Загрузка...</h1>
+				</div>
+			{:else}
+				<div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+					{#each data.services as service (service.id)}
+						<Card>
+							<div class="flex flex-col space-y-1.5 p-6">
+								<a
+									class="text-2xl font-semibold leading-none tracking-tight"
+									href="/service/{service.id}"
+								>
+									{service.title}
+								</a>
+							</div>
+							<div class="p-6 pt-0">
+								<p class="mb-2 text-surface-300">
+									{service.shortDescription}
+								</p>
+								<p class="font-semibold">Цена: {formatter.format(service.price)}</p>
+								<p class="flex flex-row items-center gap-1">
+									Рейтинг: {service.rating.toFixed(1)}/5.0 <Star
+										class="h-5 w-5 fill-yellow-500 stroke-yellow-900 stroke-1"
+									/>
+								</p>
+								<p class="mt-2 text-sm text-surface-300">
+									Предоставляется: <a href="/business/{service.business.id}"
+										>{service.business.name}</a
+									>
+								</p>
+							</div>
+							<div class="flex flex-col items-start p-6 pt-0">
+								<a
+									class="focus-visible:ring-ring inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap
+									rounded-md border bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors
+									border-surface-200-800 hover:bg-surface-100-900 hover:text-surface-900-100 hover:border-surface-300-700 focus-visible:outline-none
+									focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none
+									[&_svg]:size-4 [&_svg]:shrink-0"
+									href="/service/{service.id}"
+								>
+									Узнать больше
+									<ArrowRight />
+								</a>
+							</div>
+						</Card>
+					{/each}
+				</div>
+			{/if}
+			<nav
+				class="flex w-full flex-col flex-wrap items-center justify-center border-t px-4 py-4 border-surface-200-800 md:flex-row"
+				aria-label="Table navigation"
+				use:melt={$root}
+			>
+				<div class="flex items-center gap-2">
 					<button
-						class="w-full rounded-md border border-secondary-900 p-2.5 shadow-md hover:bg-primary-300"
-						onclick={() => goto(`/service/${service.id}`)}
-						aria-label="service card"
+						class="h-8 rounded-md border px-4 text-center border-surface-200-800 hover:bg-surface-100-900 hover:border-surface-300-700 motion-safe:transition-colors"
+						use:melt={$prevButton}
 					>
-						<h2 class="text-2xl font-bold">{service.name}</h2>
-						<h3 class="text-xl">{service.price}</h3>
-						<div>
-							<a href="/business/{service.businessId}">{service.businessName}</a>
-						</div>
+						<ChevronLeft class="size-4" />
 					</button>
-				{/each} -->
-				{#each new_services as service}
-					<Card>
-						<div class="flex flex-col space-y-1.5 p-6">
-							<a
-								class="text-2xl font-semibold leading-none tracking-tight"
-								href="/service/{service.id}"
+					{#each $pages as page (page.key)}
+						{#if page.type === 'ellipsis'}
+							<span>...</span>
+						{:else}
+							<button
+								class="h-8 rounded-md border px-4 text-center border-surface-200-800 hover:bg-surface-100-900 hover:border-surface-300-700 motion-safe:transition-colors"
+								use:melt={$pageTrigger(page)}
+								disabled={$currentPage === page.value}
 							>
-								Cloud hosting solutions
-							</a>
-						</div>
-						<div class="p-6 pt-0">
-							<p class="mb-2 text-surface-300">
-								Reliable and scalable cloud hosting services for your web applications and
-								databases.
-							</p>
-							<p class="font-semibold">Price: $1000</p>
-							<p class="flex flex-row items-center gap-1">
-								Rating: 4.6/5.0 <Star class="h-5 w-5 fill-yellow-500 stroke-yellow-900 stroke-1" />
-							</p>
-							<p class="mt-2 text-sm text-surface-300">
-								Offered by: <a href="/business/{business.id}">CloudNine Hosting</a>
-							</p>
-						</div>
-						<div class="flex flex-col items-start p-6 pt-0">
-							<a
-								class="focus-visible:ring-ring inline-flex h-10 items-center justify-center gap-2 whitespace-nowrap
-								rounded-md border bg-background px-4 py-2 text-sm font-medium ring-offset-background transition-colors
-								border-surface-200-800 hover:bg-surface-100-900 hover:text-surface-900-100 hover:border-surface-300-700 focus-visible:outline-none
-								focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none
-								[&_svg]:size-4 [&_svg]:shrink-0"
-								href="/service/{service.id}"
-							>
-								Узнать больше
-								<ArrowRight />
-							</a>
-						</div>
-					</Card>
-				{/each}
-			</div>
+								{page.value}
+							</button>
+						{/if}
+					{/each}
+					<button
+						class="h-8 rounded-md border px-4 text-center border-surface-200-800 hover:bg-surface-100-900 hover:border-surface-300-700 motion-safe:transition-colors"
+						use:melt={$nextButton}
+					>
+						<ChevronRight class="size-4" />
+					</button>
+				</div>
+			</nav>
 		</div>
 	</div>
 </main>

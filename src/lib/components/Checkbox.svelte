@@ -1,22 +1,20 @@
 <script lang="ts">
-	import { createCheckbox, melt } from '@melt-ui/svelte';
+	import { createCheckbox, melt, type CreateCheckboxProps } from '@melt-ui/svelte';
 	import { Check } from 'lucide-svelte';
+	import { writable } from 'svelte/store';
 	import { twMerge } from 'tailwind-merge';
 
-	type Props = {
+	type Props = CreateCheckboxProps & {
 		id: string;
-		checked?: boolean;
 		class?: string;
 	};
 
-	const { checked = $bindable(false), class: className, id }: Props = $props();
+	let { defaultChecked = $bindable(false), class: className, id, ...props }: Props = $props();
 
 	const {
 		elements: { root, input },
 		helpers: { isChecked }
-	} = createCheckbox({
-		defaultChecked: checked
-	});
+	} = createCheckbox({ ...props, defaultChecked });
 </script>
 
 <button

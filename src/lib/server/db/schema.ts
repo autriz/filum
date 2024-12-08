@@ -3,7 +3,7 @@ import { sqliteTable, text, integer } from 'drizzle-orm/sqlite-core';
 import { createInsertSchema, createSelectSchema } from 'drizzle-zod';
 import { z } from 'zod';
 
-export const accounts = sqliteTable('account', {
+export const accounts = sqliteTable('accounts', {
 	id: text('id').primaryKey(),
 	email: text('email').notNull(),
 	passwordHash: text('password_hash').notNull(),
@@ -25,7 +25,7 @@ export const accounts = sqliteTable('account', {
 		.default(false)
 });
 
-export const users = sqliteTable('user', {
+export const users = sqliteTable('users', {
 	id: text('id').primaryKey(),
 	name: text('name').notNull(),
 	surname: text('surname').notNull(),
@@ -50,11 +50,11 @@ export const businessContact = sqliteTable('business_contact', {
 	businessId: text('business_id')
 		.notNull()
 		.references(() => businesses.id, { onDelete: 'cascade' }),
-	type: text('type').notNull(), // email, phone, telegram, whatsapp, viber, etc.
+	type: text('type').notNull(), // email, phone, telegram, whatsapp, viber
 	contact: text('contact').notNull()
 });
 
-export const tag = sqliteTable('tag', {
+export const tags = sqliteTable('tags', {
 	id: text('id').primaryKey(),
 	text: text('text').notNull()
 });
@@ -65,15 +65,16 @@ export const businessTag = sqliteTable('business_tag', {
 		.references(() => businesses.id, { onDelete: 'cascade' }),
 	tagId: text('tag_id')
 		.notNull()
-		.references(() => tag.id, { onDelete: 'cascade' })
+		.references(() => tags.id, { onDelete: 'cascade' })
 });
 
-export const businesses = sqliteTable('business', {
+export const businesses = sqliteTable('businesses', {
 	id: text('id').primaryKey(),
 	name: text('name').notNull(),
 	avatarUrl: text('avatar_url').notNull().default(''),
 	about: text('about').notNull(),
-	address: text('address').notNull(),
+	website: text('website'),
+	address: text('address'),
 	// company, freelance, etc.
 	type: text('type').notNull(),
 	accountId: text('account_id')
@@ -81,7 +82,7 @@ export const businesses = sqliteTable('business', {
 		.references(() => accounts.id, { onDelete: 'cascade' })
 });
 
-export const session = sqliteTable('session', {
+export const session = sqliteTable('sessions', {
 	id: text('id').primaryKey(),
 	accountId: text('account_id')
 		.notNull()
@@ -91,7 +92,7 @@ export const session = sqliteTable('session', {
 	}).notNull()
 });
 
-export const services = sqliteTable('service', {
+export const services = sqliteTable('services', {
 	id: text('id').primaryKey(),
 	businessId: text('business_id')
 		.notNull()
@@ -117,16 +118,16 @@ export const services = sqliteTable('service', {
 		.default(true)
 });
 
-export const serviceTag = sqliteTable('service_tag', {
+export const serviceTag = sqliteTable('service_tags', {
 	serviceId: text('service_id')
 		.notNull()
 		.references(() => services.id, { onDelete: 'cascade' }),
-	tag_id: text('tag_id')
+	tagId: text('tag_id')
 		.notNull()
-		.references(() => tag.id, { onDelete: 'cascade' })
+		.references(() => tags.id, { onDelete: 'cascade' })
 });
 
-export const reviews = sqliteTable('review', {
+export const reviews = sqliteTable('reviews', {
 	id: text('id').primaryKey(),
 	serviceId: text('service_id')
 		.notNull()
@@ -181,7 +182,6 @@ export const selectBusinessSchema = createSelectSchema(businesses, {
 		.uuid('Account ID must be a string'),
 	name: z.string({ message: 'Business name must be a string' }),
 	about: z.string({ message: "Business' about must be a string" }),
-	address: z.string({ message: "Business' address must be a string" }),
 	type: z.enum(['company', 'freelancer'], {
 		message: 'Type must be either `company` or `freelancer`'
 	}),
@@ -191,7 +191,6 @@ export const insertBusinessSchema = selectBusinessSchema.omit({ id: true });
 export const updateBusinessSchema = insertBusinessSchema.pick({
 	name: true,
 	about: true,
-	address: true,
 	type: true
 });
 export type Business = z.infer<typeof selectBusinessSchema>;
@@ -217,7 +216,7 @@ const businessContactWebsite = z.object({
 });
 const businessContactOther = z.object({
 	contact: z.string({ message: 'Contact must be a string' }),
-	type: z.enum(['phone', 'telegram', 'whatsapp', 'viber'])
+	type: z.enum(['phone', 'telegram', 'whatsapp', 'viber', 'address'])
 });
 export const businessContactSchema = businessContactIds.and(
 	businessContactOther.or(businessContactWebsite).or(businessContactEmail)
@@ -315,7 +314,7 @@ export const tables = {
 	users: users,
 	businesses: businesses,
 	businessContact: businessContact,
-	tag: tag,
+	tag: tags,
 	// businessTag: businessTag,
 	services: services,
 	// serviceTag: serviceTag,

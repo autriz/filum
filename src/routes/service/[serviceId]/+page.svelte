@@ -2,8 +2,11 @@
 	import Avatar from '$lib/components/Avatar.svelte';
 	import Card from '$lib/components/Card.svelte';
 	import type { Business, Review, Service, User } from '$lib/server/db/schema';
-	import Container from './container.svelte';
 	import { ArrowLeft, Star } from 'lucide-svelte';
+
+	const { data } = $props();
+
+	const service = data.service;
 
 	type NewService = Service & { shortDescription: string; rating: number; tags?: string[] };
 
@@ -13,86 +16,7 @@
 		trailingZeroDisplay: 'stripIfInteger'
 	});
 
-	let data: NewService = {
-		id: '1',
-		businessId: '1',
-		title: 'Разработка API и интеграция',
-		description:
-			'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dolorem tempora libero fugit obcaecati sapiente commodi vitae quos dolore tenetur optio repellat, accusantium quas necessitatibus fugiat quam dignissimos nemo aspernatur id quis eos. Reprehenderit maxime cumque excepturi dicta blanditiis a incidunt magni libero, repellendus maiores sunt, reiciendis, quidem est vero ducimus alias error. Distinctio, tenetur! Distinctio quaerat delectus officia dicta doloribus! Dolorum accusamus ea enim distinctio! Tempore, corrupti nobis placeat atque dolore provident quis nisi tempora velit. Dolore illo, optio doloribus corporis quisquam sapiente adipisci consequatur labore dolores commodi laboriosam ex vel! Et veniam atque, cum culpa ullam in. Exercitationem, facilis?',
-		shortDescription:
-			'Custom API solutions to connect your web applications with external services.',
-		price: 40000,
-		rating: 4.8,
-		isActive: true,
-		tags: ['Fullstack', 'SvelteKit', 'Svelte', 'Database', 'Serverless'],
-		createdAt: new Date(Date.now()),
-		updatedAt: new Date(Date.now())
-	};
-	// days to complete?
-
-	let business: Business = {
-		id: '1',
-		name: 'Business',
-		about:
-			'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Nulla voluptatibus illo suscipit. Vero, deleniti eaque officia natus dolorum doloremque possimus laborum nobis quia.',
-		accountId: '1',
-		address: 'ул. Пушкина, д. Колотушкина',
-		avatarUrl: '',
-		type: 'company'
-	};
-
-	let user: User = {
-		id: '1',
-		accountId: '2',
-		name: 'aboba',
-		surname: 'abobovich',
-		avatarUrl: '',
-		createdAt: new Date(Date.now()),
-		updatedAt: new Date(Date.now())
-	};
-
-	let reviews: Review[] = [
-		{
-			id: '1',
-			serviceId: '1',
-			userId: '1',
-			comment:
-				'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat sint placeat sequi commodi temporibus neque perspiciatis voluptatibus, unde magnam quia?',
-			rating: 5.0,
-			createdAt: new Date(Date.now()),
-			updatedAt: new Date(Date.now())
-		},
-		{
-			id: '2',
-			serviceId: '1',
-			userId: '1',
-			comment:
-				'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat sint placeat sequi commodi temporibus neque perspiciatis voluptatibus, unde magnam quia?',
-			rating: 4.3,
-			createdAt: new Date(Date.now()),
-			updatedAt: new Date(Date.now())
-		},
-		{
-			id: '3',
-			serviceId: '1',
-			userId: '1',
-			comment:
-				'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat sint placeat sequi commodi temporibus neque perspiciatis voluptatibus, unde magnam quia?',
-			rating: 2.3,
-			createdAt: new Date(Date.now()),
-			updatedAt: new Date(Date.now())
-		},
-		{
-			id: '4',
-			serviceId: '1',
-			userId: '1',
-			comment:
-				'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Repellat sint placeat sequi commodi temporibus neque perspiciatis voluptatibus, unde magnam quia?',
-			rating: 3.5,
-			createdAt: new Date(Date.now()),
-			updatedAt: new Date(Date.now())
-		}
-	];
+	console.log(service);
 </script>
 
 <main
@@ -100,46 +24,50 @@
 >
 	<a class="mt-2 flex w-fit items-center justify-center gap-2 [&_svg]:size-4" href="/search">
 		<ArrowLeft />
-		Back to services
+		К услугам
 	</a>
 	<div class="grid gap-12 md:grid-cols-[2fr_1fr]">
 		<section>
-			<h1 class="mb-4 text-3xl font-bold md:text-4xl">{data.title}</h1>
-			<h2 class="text-2xl font-semibold text-surface-300">{formatter.format(data.price)}</h2>
+			<h1 class="mb-4 text-3xl font-bold md:text-4xl">{service.title}</h1>
+			<h2 class="text-2xl font-semibold text-surface-300">{formatter.format(service.price)}</h2>
 		</section>
 		<section
 			class="rounded-md border border-surface-200 p-6 shadow-md dark:border-surface-700 dark:bg-surface-900"
 		>
 			<div class="flex flex-row gap-3">
-				<a href="/business/{business.id}">
+				<a href="/business/{service.business.id}">
 					<Avatar
 						class="h-16 w-16 rounded-full bg-surface-400 text-3xl"
-						src={business.avatarUrl}
-						alt={business.name}
+						src={service.business.avatarUrl}
+						alt={service.business.name}
 					/>
 				</a>
 				<span>
-					<a class="text-2xl font-semibold" href="/business/{business.id}">{business.name}</a>
+					<a class="text-2xl font-semibold" href="/business/{service.business.id}"
+						>{service.business.name}</a
+					>
 					<div class="flex flex-row items-center justify-center gap-2">
 						<span class="flex items-center justify-center gap-2">
-							3.4/5.0
+							{service.business.avgRating.toFixed(1)}/5.0
 							<Star class="h-5 w-5 fill-yellow-500 stroke-yellow-900 stroke-1" />
 						</span>
-						<p class="text-surface-400">7 отзывов</p>
+						<p class="text-surface-400">{service.business.reviewCount} отзыва</p>
 					</div>
 				</span>
 			</div>
-			<p class="text-md mt-3 text-surface-300">{business.about}</p>
+			<p class="text-md mt-3 text-surface-300">{service.business.about}</p>
 		</section>
 	</div>
 	<section class="space-y-6">
-		{data.description}
+		<pre class="whitespace-break-spaces break-words font-sans">
+			{service.description}
+		</pre>
 	</section>
 	<section class="space-y-6">
 		<h2 class="text-2xl font-semibold text-surface-950-50">Теги</h2>
 		<div class="mt-3 flex gap-3">
-			{#if data.tags}
-				{#each data.tags as tag}
+			{#if service.tags}
+				{#each service.tags as tag}
 					<span
 						class="w-fit cursor-default rounded-xl border border-surface-400 px-2 text-sm font-semibold"
 						>{tag}</span
@@ -151,23 +79,24 @@
 	<section class="space-y-6">
 		<h2 class="text-2xl font-semibold text-surface-950-50">Отзывы</h2>
 		<div class="mt-4 grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
-			{#each reviews as review (review.id)}
+			{#each service.reviews as review (review.id)}
 				{@const rating = review.rating}
 				<div
 					class="rounded-lg border border-surface-200 p-6 hover:border-surface-400 motion-safe:transition-colors dark:border-surface-700 dark:bg-surface-900"
 				>
 					<div class="flex w-fit items-center justify-center gap-4">
-						<a href="/profile/{user.id}">
+						<a href="/profile/{review.user.id}">
 							<Avatar
 								class="h-10 w-10 rounded-full bg-surface-400"
-								src={business.avatarUrl}
-								alt="{user.name} {user.surname}"
+								src={review.user.avatarUrl}
+								alt="{review.user.name} {review.user.surname}"
 							/>
 						</a>
 						<div>
-							<a class="text-ellipsis text-2xl font-bold" href="/profile/{user.id}"
-								>{user.name} {user.surname}</a
-							>
+							<h3 class="text-ellipsis text-2xl font-bold">
+								{review.user.name}
+								{review.user.surname}
+							</h3>
 							<div class="overflow-hidden" style="width: {rating}rem;">
 								<span class="sr-only">{rating} звёзд</span>
 								<span class="flex w-fit flex-row">
@@ -185,7 +114,7 @@
 			{/each}
 		</div>
 	</section>
-	<section class="space-y-6">
+	<!-- <section class="space-y-6">
 		<h2 class="text-2xl font-semibold text-surface-950-50">Похожие услуги</h2>
-	</section>
+	</section> -->
 </main>

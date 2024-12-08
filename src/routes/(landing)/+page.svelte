@@ -1,11 +1,11 @@
 <script lang="ts">
-	import BusinessCard from '$lib/components/BusinessCard.svelte';
+	import BusinessCard from './BusinessCard.svelte';
 	import Search from '$lib/components/Search.svelte';
 
 	let { data } = $props();
 </script>
 
-<main class="relative isolate h-full overflow-hidden px-6 lg:px-8">
+<main class="relative isolate h-full overflow-auto px-6 lg:px-8">
 	<div
 		class="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80 lg:-top-60"
 		aria-hidden="true"
@@ -15,7 +15,7 @@
 			style="clip-path: polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)"
 		></div>
 	</div>
-	<div class="m-auto flex h-full max-w-2xl items-center justify-center">
+	<section class="m-auto flex h-[80%] max-w-2xl items-center justify-center">
 		<svg aria-hidden="true" class="mask absolute inset-0 -z-10 h-full w-full stroke-surface-600/30">
 			<defs>
 				<pattern
@@ -37,10 +37,8 @@
 			></rect>
 		</svg>
 		<div class="w-full text-center">
-			<h1
-				class="select-none text-balance text-5xl font-semibold tracking-tight text-tertiary-400-600 sm:text-7xl"
-			>
-				Filum
+			<h1 class="select-none text-balance text-5xl font-semibold tracking-tight sm:text-7xl">
+				Поиск услуг - <b class="text-tertiary-400-600">легко</b>
 			</h1>
 			<!-- <p class="mt-8 text-pretty text-lg font-medium sm:text-xl/8">TODO</p> -->
 			<form class="mx-auto mt-6 flex max-w-lg items-center" action="/search">
@@ -67,15 +65,18 @@
 					<span>Поиск</span>
 				</button>
 			</form>
-			<div class="businesses_container">
-				{#each data.businesses as business}
-					<div class="business_card">
-						<BusinessCard {business} />
-					</div>
-				{/each}
-			</div>
 		</div>
-	</div>
+	</section>
+	<section class="mt-4 space-y-6">
+		<h1 class="mx-16 text-4xl">Компании, которые выбрали нас</h1>
+		<div class="flex flex-row justify-center gap-4">
+			{#each data.businesses as business}
+				<div class="business_card">
+					<BusinessCard {business} />
+				</div>
+			{/each}
+		</div>
+	</section>
 	<div
 		class="absolute inset-x-0 top-[calc(100%-17rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
 		aria-hidden="true"
@@ -108,19 +109,10 @@
 		mask-image: radial-gradient(50% 50% at center, white, transparent);
 	}
 
-	.businesses_container {
-		margin-top: 5%;
-		display: flex;
-		flex-wrap: wrap;
-		gap: 16px;
-		justify-content: center;
-	}
-
 	.business_card {
 		width: 100%;
 		max-width: 300px;
 		flex: 1 1 280px;
-		cursor: pointer;
 	}
 
 	@media (min-width: 640px) {
